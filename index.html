@@ -1,250 +1,323 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <title>Estoque de Materiais Headset</title>
-  <meta name="theme-color" content="#6a53f2"/>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#6c4df5">
+<title>📦 Estoque de Materiais Headset</title>
 
-  <style>
-    :root{
-      --ink:#0f1431; --ink2:#6f76aa;
-      --violet:#6a53f2; --accent:#22eacb; --pink:#ff5bb0;
-      --panel:#fff; --stroke:#ece7ff;
-      --shadow: 0 18px 48px rgba(106,83,242,.16), 0 8px 22px rgba(106,83,242,.10);
-      --fs:100%;
-    }
-    *{box-sizing:border-box}
-    html{font-size:var(--fs)}
-    body{
-      margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial;
-      color:var(--ink); background:#faf8ff;
-    }
-    .wrap{max-width:1100px;margin:0 auto;padding:16px}
-    header{display:flex;align-items:center;gap:14px;margin:18px 0 8px}
-    .logo{width:58px;height:58px;border-radius:999px;object-fit:cover;box-shadow:0 8px 22px rgba(0,0,0,.08)}
-    h1{
-      margin:0 auto; text-align:center; width:100%;
-      font-size:2.3rem; line-height:1.05; font-weight:800; letter-spacing:.2px;
-      color:#1e2d90; text-shadow:0 6px 22px rgba(106,83,242,.35);
-    }
-    .zoom{position:sticky;top:8px;display:flex;gap:8px;justify-content:flex-end;margin:8px 0;z-index:2}
-    .zbtn{
-      font-size:1.0rem; padding:.45rem .65rem; border-radius:12px; background:#fff;
-      color:#5a44e6; border:2px solid #cfc5ff; cursor:pointer; box-shadow:var(--shadow)
-    }
+<style>
+  :root{
+    --fs: 100%;
+    --ink:#0f1431; --ink2:#636aa0;
+    --panel:#ffffff; --stroke:#efe9ff;
+    --violet:#6a53f2; --accent:#22eacb; --pink:#ff5bb0;
+    --shadow: 0 18px 48px rgba(106,83,242,.18), 0 6px 18px rgba(106,83,242,.12);
+  }
+  *{box-sizing:border-box}
+  html{font-size:var(--fs);}
+  body{
+    margin:0; padding:0; background:#fff; color:var(--ink);
+    font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;
+    font-weight:700;
+  }
+  .wrap{max-width:1100px;margin:0 auto;padding:16px}
+  header{display:flex;align-items:center;justify-content:center;gap:14px;margin:18px 0 12px;position:relative}
+  .logo{
+    position:absolute; left:0; top:50%; transform:translateY(-50%);
+    width:60px; height:60px; border-radius:50%;
+    box-shadow:0 10px 26px rgba(106,83,242,.18);
+    object-fit:cover
+  }
+  h1{
+    margin:0; line-height:1.1; text-align:center;
+    font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+    color:#2036ff;
+    text-shadow:0 2px 0 #b29bff, 0 8px 22px rgba(106,83,242,.35);
+  }
+  .sub{color:var(--ink2); font-size:1rem; text-align:center; margin-top:8px}
 
-    .panel{background:#fff;border:1px solid var(--stroke);border-radius:18px;padding:16px;margin:14px 0;box-shadow:var(--shadow)}
-    .panel h2{margin:0 0 10px;text-align:center;color:#6a53f2;font-size:1.6rem}
+  .zoom{position:sticky; top:8px; display:flex; gap:10px; justify-content:flex-end; margin:8px 0 12px; z-index:5}
+  .zbtn{
+    font-size:1.0rem; padding:.45rem .7rem; border-radius:14px;
+    border:2px solid var(--violet); color:var(--violet); background:#fff;
+    cursor:pointer; box-shadow:var(--shadow)
+  }
 
-    .card{background:#fff;border:1px solid #ececff;border-radius:16px;padding:14px;margin:10px 0;box-shadow:var(--shadow)}
-    .row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-    .name{font-size:1.35rem;color:#242a66;font-weight:800}
-    .code{font-size:1rem;color:#5b6aa6}
-    .muted{font-size:.95rem;color:#7680b0;margin-top:4px}
+  .panel{background:var(--panel);border:1px solid var(--stroke);border-radius:18px;padding:16px;margin:14px 0;box-shadow:var(--shadow)}
+  .panel h2{margin:0 0 10px;text-align:center;color:var(--violet);font-size:1.6rem}
 
-    .tipo,.qty,.obs{
-      border:1px solid #dcd7ff;border-radius:12px;background:#fff;
-      padding:.55rem .7rem; font-size:1rem; box-shadow:0 6px 14px rgba(106,83,242,.10)
-    }
-    .qty{min-width:68px}
-    .obs{min-width:16rem;flex:1}
-    .btn{border:0;border-radius:12px;padding:.6rem .9rem;color:#fff;font-size:1rem;cursor:pointer}
-    .btn:active{transform:scale(.98)}
-    .ok{background:linear-gradient(135deg,#7d89ff,#5d6bff)}
-    .in{background:linear-gradient(135deg,var(--accent),#10bba1)}
-    .out{background:linear-gradient(135deg,var(--pink),#ff2e63)}
+  .card{background:#fff;border:1px solid #ececff;border-radius:16px;padding:14px;margin:10px 0;box-shadow:var(--shadow)}
+  .row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
-    .badge{border-radius:999px;padding:.5rem .9rem;font-size:1rem;background:#f7f7ff;border:2px solid #dad6ff}
-    .b-ok{border-color:#24b07a}.b-warn{border-color:#f5b942}.b-danger{border-color:#ff2e63}
+  .name{font-size:1.35rem;color:#2a2a55}
+  .code{font-size:1rem}
+  .muted{font-size:.95rem;color:#6b72a8;margin-top:4px}
+  .qty,.tipo,.obs{
+    border:1px solid #d7d7f5;border-radius:12px;
+    padding:.6rem .8rem;font-size:1.05rem;background:#fff;
+    box-shadow:0 6px 14px rgba(106,83,242,.10)
+  }
+  .qty{min-width:72px}
+  .obs{min-width:16rem;flex:1}
 
-    .center{display:flex;justify-content:center}
-    .spinner{width:62px;height:62px;border-radius:999px;border:6px solid #9be; border-top-color:#6a53f2; animation:spin 1s linear infinite}
-    @keyframes spin{to{transform:rotate(360deg)}}
+  .btn{border:0;border-radius:12px;padding:.7rem 1rem;color:#fff;font-size:1.05rem;cursor:pointer}
+  .btn.ok{background:linear-gradient(135deg,#7d89ff,#5d6bff)}
+  .btn.in{background:linear-gradient(135deg,var(--accent),#10bba1)}
+  .btn.out{background:linear-gradient(135deg,var(--pink),#ff2e63)}
+  .btn:active{transform:scale(.98)}
+  .btn[disabled]{opacity:.55; cursor:not-allowed}
 
-    footer{margin:22px 0;text-align:center;color:#9aa2cc;font-size:.95rem}
-    footer b{color:#303a87}
+  .badge{
+    border-radius:999px;padding:.6rem 1rem;font-size:1rem;
+    background:#f7f7ff;border:2px solid #d9d6ff
+  }
+  .b-ok{border-color:#24b07a}
+  .b-warn{border-color:#f5b942}
+  .b-danger{border-color:#ff2e63}
 
-    /* limpa o banner azul do Apps Script quando abrimos direto lá */
-    body > div[style*="rgb(232, 240, 254)"], body > div[style*="#e8f0fe"]{display:none !important;height:0 !important;overflow:hidden !important}
-  </style>
+  .overlay{position:fixed;inset:0;background:#0006;display:none;align-items:center;justify-content:center;z-index:9999}
+  .spinner{width:88px;height:88px;border-radius:999px;border:8px solid var(--accent);border-top-color:var(--violet);animation:spin 1s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#fff;border:1px solid var(--stroke);padding:.7rem 1rem;border-radius:12px;display:none;z-index:10000;box-shadow:var(--shadow)}
+  footer{text-align:center;margin:22px 0;color:#9aa0c7;font-weight:600;font-size:.95rem}
+
+  /* evita interferência de algum SW antigo */
+  .noshow{display:none!important}
+</style>
 </head>
 <body>
   <div class="wrap">
     <header>
       <img class="logo" src="./logo.png" alt="HeadSet Brasil"/>
-      <h1>Estoque de Materiais Headset</h1>
-      <div class="zoom">
-        <button class="zbtn" onclick="ajustarFonte(-1)">A-</button>
-        <button class="zbtn" onclick="ajustarFonte(1)">A+</button>
+      <div>
+        <h1>Estoque de Materiais Headset</h1>
+        <div class="sub noshow" id="readonlyMsg">Modo leitura (API de movimentação não disponível).</div>
       </div>
     </header>
 
+    <div class="zoom">
+      <button class="zbtn" onclick="ajustarFonte(-1)">A-</button>
+      <button class="zbtn" onclick="ajustarFonte(1)">A+</button>
+    </div>
+
     <section class="panel">
       <h2>Produtos</h2>
-      <div id="produtos" class="center"><div class="spinner" id="spin1"></div></div>
+      <div id="produtos"></div>
     </section>
 
     <section class="panel">
       <h2>Estoque Atual</h2>
-      <div id="estoque" class="center"><div class="spinner" id="spin2"></div></div>
+      <div id="estoque"></div>
     </section>
 
     <footer>Desenvolvido por <b>Alexandre Cavalcante — HD TECH —</b></footer>
   </div>
 
+  <div class="overlay" id="overlay"><div class="spinner"></div></div>
+  <div class="toast" id="toast">Pronto!</div>
+
 <script>
-  /* ==========================================================
-     1) Cole aqui o SEU endpoint “echo” do Google que responde JSON
-     Exemplo de formato: https://script.googleusercontent.com/macros/echo?user_content_key=...
-     Esse mesmo BASE atende act=listar, act=movimentar, act=observacao
-  ========================================================== */
-  const API_BASE = 'https://script.google.com/macros/s/AKfycbzzTTeQTKKHsTfyAhzw-NDFqbto_aXGo-l6J-Rsp9eF/dev'; // <-- SUBSTITUA
+/* ================== CONFIG ================== */
 
-  /* ============= UI utilitários ============= */
-  const $ = sel => document.querySelector(sel);
-  let _fs = Number(localStorage.getItem('eh_fs') || '100');
+/* Seu deploy do Apps Script (EXEC) */
+const EXEC_URL = "https://script.google.com/macros/s/AKfycbwn5j-ZPR1cJGfq71Zx0uKfpV85Wm0D1-xN4PJuyC4mr5PneMassPjvGU3OARhqDxvZSA/exec";
+
+/* (Opcional) URL ECHO que retorna o JSON diretamente (aquela enorme `script.googleusercontent.com/macros/echo?...`) */
+const ECHO_LISTAR_URL = ""; // cole aqui se quiser usar o echo como fallback
+
+/* Se sua API ainda não tem act=movimentar/observacao, o HTML trava os botões. */
+let READ_ONLY = false; // o auto-detector ajusta isso na inicialização
+
+/* ================== UI helpers ================== */
+const $ = s => document.querySelector(s);
+const elProdutos = $('#produtos');
+const elEstoque  = $('#estoque');
+const overlay    = $('#overlay');
+const toast      = $('#toast');
+const readonlyMsg= $('#readonlyMsg');
+
+let _fs = Number(localStorage.getItem('eh_fs')||'100');
+document.documentElement.style.setProperty('--fs', _fs + '%');
+function ajustarFonte(step){
+  _fs = Math.min(240, Math.max(70, _fs + step*10));
   document.documentElement.style.setProperty('--fs', _fs + '%');
-  function ajustarFonte(step){
-    _fs = Math.min(240, Math.max(70, _fs + step*10));
-    document.documentElement.style.setProperty('--fs', _fs + '%');
-    localStorage.setItem('eh_fs', String(_fs));
-  }
-  function classByLevel(estoque, minimo){
-    estoque=Number(estoque||0); minimo=Number(minimo||0);
-    if(minimo>0){
-      if(estoque <= 0.25*minimo) return 'b-danger';
-      if(estoque <  minimo)      return 'b-warn';
-    }
-    return 'b-ok';
-  }
+  localStorage.setItem('eh_fs', String(_fs));
+}
+function showOverlay(v){ overlay.style.display = v ? 'flex' : 'none'; }
+function showToast(msg){ toast.textContent = msg||'Pronto!'; toast.style.display='block'; setTimeout(()=>toast.style.display='none',1400); }
 
-  /* ============= Renderização ============= */
-  function productRow(it){
-    const qtdOpts = Array.from({length:50}, (_,i)=>`<option value="${i+1}">${i+1}</option>`).join('');
-    return `
-      <div class="card" id="cardL-${it.codigo}">
-        <div class="row">
-          <div>
-            <div class="name">${it.nome}</div>
-            <div class="code">Cód: ${it.codigo}</div>
-            <div class="muted">Estoque: <b id="left-${it.codigo}">${it.estoque ?? 0}</b></div>
-          </div>
+function classByLevel(estoque, minimo){
+  estoque=Number(estoque||0); minimo=Number(minimo||0);
+  if(minimo>0){
+    if(estoque <= 0.25*minimo) return 'b-danger';
+    if(estoque <  minimo)      return 'b-warn';
+  }
+  return 'b-ok';
+}
 
-          <div class="row">
-            <select class="tipo" id="tipo-${it.codigo}">
-              <option value="Unidade">Unidade</option>
-              <option value="CX">CX</option>
-              <option value="Litro">Litro</option>
-            </select>
-            <select class="qty" id="qty-${it.codigo}">${qtdOpts}</select>
-            <input class="obs" id="obs-${it.codigo}" placeholder="Obs/Justificativa"/>
-            <button class="btn ok" onclick="clickObs('${it.codigo}')">OK</button>
-            <button class="btn in" onclick="clickMov('ENTRADA','${it.codigo}')">Entrada</button>
-            <button class="btn out" onclick="clickMov('SAÍDA','${it.codigo}')">Saída</button>
-          </div>
+/* ================== RENDER ================== */
+function productRow(it){
+  const qtdOpts = Array.from({length:50}, (_,i)=>`<option value="${i+1}">${i+1}</option>`).join('');
+  return `
+    <div class="card" id="cardL-${it.codigo}">
+      <div class="row">
+        <div>
+          <div class="name">${it.nome}</div>
+          <div class="code">Cód: ${it.codigo}</div>
+          <div class="muted">Estoque: <b id="left-${it.codigo}">${it.estoque ?? 0}</b></div>
         </div>
-      </div>`;
-  }
-  function stockRow(it){
-    return `
-      <div class="card" id="card-${it.codigo}">
         <div class="row">
-          <div>
-            <div class="name">${it.nome}</div>
-            <div class="code">Cód: ${it.codigo}</div>
-          </div>
-          <div class="badge ${classByLevel(it.estoque, it.minimo)}" id="badge-${it.codigo}">
-            Estoque: <span id="est-${it.codigo}">${it.estoque ?? 0}</span>
-          </div>
+          <select class="tipo" id="tipo-${it.codigo}">
+            <option value="Unidade">Unidade</option>
+            <option value="CX">CX</option>
+            <option value="Litro">Litro</option>
+          </select>
+          <select class="qty"  id="qty-${it.codigo}">${qtdOpts}</select>
+          <input  class="obs"  id="obs-${it.codigo}" placeholder="Obs/Justificativa"/>
+          <button class="btn ok"  onclick="clickObs('${it.codigo}')" ${READ_ONLY?'disabled':''}>OK</button>
+          <button class="btn in"  onclick="clickMov('ENTRADA','${it.codigo}')" ${READ_ONLY?'disabled':''}>Entrada</button>
+          <button class="btn out" onclick="clickMov('SAÍDA','${it.codigo}')" ${READ_ONLY?'disabled':''}>Saída</button>
         </div>
-      </div>`;
-  }
-  function render(items){
-    $('#produtos').innerHTML = items.map(productRow).join('') || '<div class="muted">Sem itens.</div>';
-    $('#estoque').innerHTML  = items.map(stockRow).join('')  || '<div class="muted">Sem itens.</div>';
-  }
-  const findItem = cod => (window._items||[]).find(x=>x.codigo===cod);
+      </div>
+    </div>`;
+}
+function stockRow(it){
+  return `
+    <div class="card" id="card-${it.codigo}">
+      <div class="row">
+        <div>
+          <div class="name">${it.nome}</div>
+          <div class="code">Cód: ${it.codigo}</div>
+        </div>
+        <div class="badge ${classByLevel(it.estoque, it.minimo)}" id="badge-${it.codigo}">
+          Estoque: <span id="est-${it.codigo}">${it.estoque ?? 0}</span>
+        </div>
+      </div>
+    </div>`;
+}
+function render(items){
+  elProdutos.innerHTML = items.map(productRow).join('');
+  elEstoque.innerHTML  = items.map(stockRow).join('');
+}
 
-  /* ============= API helper ============= */
-  function url(params){
-    // cache buster evita caches teimosos do GitHub/Safari
-    const qs = new URLSearchParams(Object.assign({}, params, {_ts: Date.now()}));
-    return `${API_BASE}&${qs.toString()}`;
-  }
-  async function apiListar(){
-    const r = await fetch(url({act:'listar'}), {mode:'cors', cache:'no-store'});
-    if(!r.ok) throw new Error('API indisponível');
-    return r.json();
-  }
-  async function apiMovimentar(tipo, codigo, qtd, unidade, obs){
-    const r = await fetch(url({act:'movimentar',tipo,codigo,qtd,unidade,obs}), {mode:'cors', cache:'no-store'});
-    if(!r.ok) throw new Error('Falha ao movimentar');
-    return r.json();
-  }
-  async function apiObservacao(codigo, obs){
-    const r = await fetch(url({act:'observacao',codigo,obs}), {mode:'cors', cache:'no-store'});
-    if(!r.ok) throw new Error('Falha ao salvar observação');
-    return r.json();
-  }
-
-  /* ============= Ações dos botões ============= */
-  async function clickMov(tipo, codigo){
+/* ================== API (fetch) ================== */
+async function apiListar(){
+  // 1) tenta EXEC ?act=listar
+  if (EXEC_URL){
     try{
-      const qtdSel  = document.getElementById('qty-'+codigo);
-      const tipoSel = document.getElementById('tipo-'+codigo);
-      const obsInp  = document.getElementById('obs-'+codigo);
-
-      const qtd     = Number(qtdSel?.value || 1);
-      const unidade = String(tipoSel?.value || 'Unidade');
-      const obs     = String(obsInp?.value || '');
-
-      const res = await apiMovimentar(tipo, codigo, qtd, unidade, obs);
-      const it = findItem(codigo);
-      if (it){ it.estoque = res.estoque; }
-
-      const l = document.getElementById('left-'+codigo);
-      const e = document.getElementById('est-'+codigo);
-      const b = document.getElementById('badge-'+codigo);
-      if (l) l.textContent = res.estoque;
-      if (e) e.textContent = res.estoque;
-      if (b && it) b.className = 'badge ' + classByLevel(res.estoque, it.minimo||0);
-    }catch(err){
-      alert(err?.message || err);
-    }
+      const u = new URL(EXEC_URL);
+      u.searchParams.set('act','listar');
+      const r = await fetch(u.toString(), {mode:'cors', credentials:'omit', cache:'no-store'});
+      if (!r.ok) throw new Error('HTTP '+r.status);
+      const j = await r.json();
+      return j;
+    }catch(_){}
   }
-  async function clickObs(codigo){
-    const obsInp  = document.getElementById('obs-'+codigo);
-    const obs     = String(obsInp?.value || '').trim();
-    if (!obs){ alert('Escreva a observação antes de tocar em OK.'); return; }
-    try{
-      await apiObservacao(codigo, obs);
-      obsInp.value = '';
-      // feedback leve
-      obsInp.placeholder = 'Observação salva!';
-      setTimeout(()=>obsInp.placeholder='Obs/Justificativa', 1200);
-    }catch(err){
-      alert(err?.message || err);
-    }
+  // 2) fallback: ECHO
+  if (ECHO_LISTAR_URL){
+    const r2 = await fetch(ECHO_LISTAR_URL, {mode:'cors', cache:'no-store'});
+    if (!r2.ok) throw new Error('HTTP '+r2.status);
+    return await r2.json();
   }
+  throw new Error('API indisponível');
+}
 
-  /* ============= Boot ============= */
-  (async function init(){
+async function apiMovimentar(tipo, codigo, qtd, unidade, obs){
+  const u = new URL(EXEC_URL);
+  u.searchParams.set('act','movimentar');
+  const r = await fetch(u.toString(), {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ tipo, codigo, qtd, unidade, obs }),
+  });
+  if (!r.ok) throw new Error('HTTP '+r.status);
+  return await r.json();
+}
+async function apiObservacao(codigo, obs){
+  const u = new URL(EXEC_URL);
+  u.searchParams.set('act','observacao');
+  const r = await fetch(u.toString(), {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ codigo, obs }),
+  });
+  if (!r.ok) throw new Error('HTTP '+r.status);
+  return await r.json();
+}
+
+/* ================== Ações ================== */
+function findItem(cod){ return (window._items||[]).find(x=>x.codigo===cod); }
+
+async function clickMov(tipo, codigo){
+  if (READ_ONLY){ alert('Movimentação desativada porque a API não está pronta.'); return; }
+  const qtdSel  = document.getElementById('qty-'+codigo);
+  const tipoSel = document.getElementById('tipo-'+codigo);
+  const obsInp  = document.getElementById('obs-'+codigo);
+  const qtd     = Number(qtdSel?.value || 1);
+  const unidade = String(tipoSel?.value || 'Unidade');
+  const obs     = String(obsInp?.value || '');
+
+  showOverlay(true);
+  try{
+    const res = await apiMovimentar(tipo, codigo, qtd, unidade, obs);
+    const it = findItem(codigo);
+    if (it){ it.estoque = res.estoque; }
+    const l = document.getElementById('left-'+codigo);
+    const e = document.getElementById('est-'+codigo);
+    const b = document.getElementById('badge-'+codigo);
+    if (l) l.textContent = res.estoque;
+    if (e) e.textContent = res.estoque;
+    if (b && it) b.className = 'badge ' + classByLevel(res.estoque, it.minimo||0);
+    showToast('Pronto!');
+  }catch(err){
+    alert('Erro ao movimentar: ' + (err?.message || err));
+  }finally{
+    showOverlay(false);
+  }
+}
+
+async function clickObs(codigo){
+  if (READ_ONLY){ alert('Observação desativada porque a API não está pronta.'); return; }
+  const obsInp  = document.getElementById('obs-'+codigo);
+  const obs     = String(obsInp?.value || '').trim();
+  if (!obs){ alert('Escreva a observação antes de tocar em OK.'); return; }
+  showOverlay(true);
+  try{
+    await apiObservacao(codigo, obs);
+    obsInp.value = '';
+    showToast('Observação salva!');
+  }catch(err){
+    alert('Erro ao salvar observação: ' + (err?.message || err));
+  }finally{
+    showOverlay(false);
+  }
+}
+
+/* ================== Boot ================== */
+(async function init(){
+  try{
+    // tenta detectar se API de movimentação existe
+    READ_ONLY = false;
     try{
-      const items = await apiListar();
-      window._items = (items||[]).map(x=>Object.assign({},x));
-      render(window._items);
-    }catch(err){
-      $('#produtos').innerHTML = '';
-      $('#estoque').innerHTML  = '';
-      alert('Não foi possível carregar os produtos.\n' + (err?.message || err));
-    }
-  })();
+      const testUrl = new URL(EXEC_URL);
+      testUrl.searchParams.set('act','status');
+      const r = await fetch(testUrl.toString(), {mode:'cors', cache:'no-store'});
+      if (!r.ok) READ_ONLY = true;
+    }catch(_){ READ_ONLY = true; }
+    if (READ_ONLY) readonlyMsg.classList.remove('noshow');
 
-  // expõe no escopo global (onclick dos botões)
-  window.clickMov = clickMov;
-  window.clickObs = clickObs;
-  window.ajustarFonte = ajustarFonte;
+    showOverlay(true);
+    const items = await apiListar();
+    window._items = (items||[]).map(x=>Object.assign({},x));
+    render(window._items);
+  }catch(err){
+    showOverlay(false);
+    alert('Não foi possível carregar os produtos.\n' + (err?.message || err));
+  }finally{
+    showOverlay(false);
+  }
+})();
 </script>
 </body>
 </html>
