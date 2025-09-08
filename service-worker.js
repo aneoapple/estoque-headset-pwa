@@ -1,4 +1,4 @@
-const CACHE = "estoque-headset-v1";
+const CACHE = "eh-launcher-v1";
 const ASSETS = [
   "./",
   "./index.html",
@@ -10,7 +10,6 @@ const ASSETS = [
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)));
 });
-
 self.addEventListener("activate", (e) => {
   e.waitUntil(
     caches.keys().then(keys =>
@@ -18,12 +17,11 @@ self.addEventListener("activate", (e) => {
     )
   );
 });
-
 self.addEventListener("fetch", (e) => {
   const url = new URL(e.request.url);
-  if (ASSETS.some(a => url.pathname.endsWith(a.replace("./","/")))) {
-    e.respondWith(
-      caches.match(e.request).then(resp => resp || fetch(e.request))
-    );
-  }
+  // Não intercepta requisições externas (como o Apps Script)
+  if (url.origin !== location.origin) return;
+  e.respondWith(
+    caches.match(e.request).then((cached) => cached || fetch(e.request))
+  );
 });
