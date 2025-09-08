@@ -1,68 +1,56 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>📦 Estoque Headset</title>
-
-  <!-- PWA básico (opcional, já que o ícone no iOS usa share > Add to Home) -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#6a53f2">
-  <link rel="apple-touch-icon" href="icon-192.png">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-
+  <meta name="theme-color" content="#6c4df5">
   <style>
-    :root{ --violet:#6a53f2; --ink:#0f1431; }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto;
-      background: radial-gradient(1200px 500px at 50% 20%, #f1ecff 0%, #ffffff 60%);
-      color:var(--ink);
-      display:flex; align-items:center; justify-content:center; padding:24px;
-    }
-    .card{
-      width:min(720px, 94vw);
-      background:#fff; border:1px solid #ece9ff; border-radius:20px;
-      box-shadow:0 22px 60px rgba(106,83,242,.18);
-      padding:28px;
-    }
-    h1{margin:0 0 10px; font-size:clamp(22px,4vw,36px)}
-    .sub{color:#6a6e9f; margin-bottom:22px; font-size:clamp(14px,2.8vw,18px)}
-    .btn{
-      display:inline-block; background:var(--violet); color:#fff; text-decoration:none;
-      padding:16px 22px; border-radius:14px; font-weight:700; font-size:20px;
-      box-shadow:0 14px 30px rgba(106,83,242,.28);
-    }
-    .hint{margin-top:18px; color:#8186b2; font-size:15px}
-    .logo{font-size:32px; margin-right:8px}
+    body{font-family:Arial,sans-serif;margin:0;padding:0;background:#f8f9ff}
+    header{padding:1rem;text-align:center;background:#6c4df5;color:#fff}
+    .card{background:#fff;margin:1rem;padding:1rem;border-radius:10px;box-shadow:0 2px 6px #ccc}
+    .name{font-size:1.3rem;font-weight:bold}
+    .code{font-size:.9rem;color:#555}
+    .badge{padding:.4rem .8rem;border-radius:20px;font-size:.9rem}
+    .b-ok{background:#dff5ec}
+    .b-warn{background:#fff5d4}
+    .b-danger{background:#ffd6d6}
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1><span class="logo">📦</span>Estoque Headset</h1>
-    <div class="sub">Toque no botão abaixo para abrir o aplicativo.</div>
-
-    <!-- ✅ Link direto (ação do usuário). iOS permite navegar sem bloquear. -->
-    <p>
-      <a class="btn" id="openBtn"
-         href="https://script.google.com/macros/s/AKfycbwKsk6mfZ2UHYfRY--rhyioYaTYUMoxp6kK1flekZjLAVMCgwU7z_f5MkzKSsXEHm7NCQ/exec"
-         rel="noopener" target="_self">Abrir agora</a>
-    </p>
-
-    <div class="hint">
-      Se estiver usando iPhone, você pode tocar no botão
-      <b>Compartilhar ▸ Adicionar à Tela de Início</b> para instalar como atalho.
-    </div>
-  </div>
+  <header>
+    <h1>📦 Estoque de Materiais Headset</h1>
+  </header>
+  <main id="produtos">Carregando...</main>
 
   <script>
-    // Fallback: se o usuário quiser auto-abrir, fazemos APÓS interação (iOS não bloqueia).
-    // Ex.: tocar duas vezes: primeira carrega, segunda tenta auto-redirect. Opcional.
-    document.getElementById('openBtn').addEventListener('click', ()=>{
-      // nada: navegará pelo href acima (target=_self), que é o mais confiável no iOS.
-    });
+    const API = "https://script.google.com/macros/s/AKfycbwKsk6mfZ2UHYfRY--rhyioYaTYUMoxp6kK1flekZjLAVMCgwU7z_f5MkzKSsXEHm7NCQ/exec";
+
+    function classByLevel(e,m){
+      if(m>0){
+        if(e <= 0.25*m) return "b-danger";
+        if(e < m) return "b-warn";
+      }
+      return "b-ok";
+    }
+
+    fetch(API+"?act=listar")
+      .then(r=>r.json())
+      .then(data=>{
+        document.getElementById("produtos").innerHTML = data.map(it=>`
+          <div class="card">
+            <div class="name">${it.nome}</div>
+            <div class="code">Cód: ${it.codigo}</div>
+            <div class="badge ${classByLevel(it.estoque,it.minimo)}">
+              Estoque: ${it.estoque}
+            </div>
+          </div>
+        `).join("");
+      })
+      .catch(err=>{
+        document.getElementById("produtos").innerHTML = "Erro: "+err;
+      });
   </script>
 </body>
 </html>
