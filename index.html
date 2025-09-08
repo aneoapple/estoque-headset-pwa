@@ -5,118 +5,118 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"/>
   <meta name="theme-color" content="#6c4df5">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>📦 Estoque de Materiais Headset</title>
-  <link rel="manifest" href="./manifest.json">
-  <link rel="icon" href="./icon-192.png" sizes="192x192">
-  <link rel="apple-touch-icon" href="./icon-192.png">
-
+  <link rel="manifest" href="manifest.json">
+  <title>Estoque de Materiais Headset</title>
   <style>
     :root{
       --fs: 100%;
-      --ink:#0f1431; --ink2:#636aa0;
+      --ink:#0f1431; --ink2:#6b6fb0;
       --panel:#ffffff; --stroke:#efe9ff;
       --violet:#6a53f2; --accent:#22eacb; --pink:#ff5bb0;
       --shadow: 0 18px 48px rgba(106,83,242,.18), 0 6px 18px rgba(106,83,242,.12);
-      --blue:#1f3aa8;      /* título/estoque azul */
-      --shade: 0 2px 0 rgba(118,74,255,.3), 0 6px 22px rgba(118,74,255,.26);
-      --txtshadow: 0 2px 0 rgba(118,74,255,.35), 0 8px 26px rgba(118,74,255,.18);
+      --title:#2642d0; /* azul título */
     }
     *{box-sizing:border-box}
-    html{font-size: var(--fs);}
+    html{font-size:var(--fs);}
     body{
       margin:0; padding:0; background:#fff; color:var(--ink);
-      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial;
-      font-weight: 700;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;
+      font-weight:700;
     }
-    .wrap{max-width:1100px;margin:0 auto;padding:20px 16px}
+    .wrap{max-width:1100px;margin:0 auto;padding:16px}
 
-    /* ====== HEADER ====== */
-    header{
-      display:flex;align-items:center;justify-content:space-between;gap:16px;
-      padding:8px 0 20px; position:relative;
-    }
+    header{display:flex;align-items:center;gap:16px;margin:12px 0 8px}
     .brand{
-      width:84px;height:84px;border-radius:999px;object-fit:cover;flex:0 0 auto;
-      box-shadow: var(--shade);
+      width:56px;height:56px;flex:0 0 56px;border-radius:999px;overflow:hidden;
+      box-shadow:0 10px 24px rgba(106,83,242,.18);
+      border:2px solid #e8e2ff;background:#fff;display:grid;place-items:center;
     }
-    .title{
-      margin:0; line-height:1.05; flex:1 1 auto; text-align:center;
-      font-size: clamp(1.8rem, 4vw, 3.1rem);
-      color: var(--blue);
-      text-shadow: var(--txtshadow);
-      letter-spacing:.3px;
+    .brand img{width:100%;height:100%;object-fit:contain}
+    h1{
+      margin:0; line-height:1.08; text-align:left;
+      font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+      color:var(--title);
+      text-shadow: 0 8px 22px rgba(106,83,242,.35);
     }
-    .zoom{display:flex;gap:10px;justify-content:flex-end;flex:0 0 auto}
+
+    .zoom{position:sticky;top:8px;display:flex;gap:10px;justify-content:flex-end;margin:8px 0 10px;z-index:5}
     .zbtn{
-      font-size: .9rem; padding:.35rem .6rem; border-radius:12px;
+      font-size:1.0rem; padding:.45rem .7rem; border-radius:14px;
       border:2px solid var(--violet); color:var(--violet); background:#fff;
       cursor:pointer; box-shadow:var(--shadow);
     }
 
-    /* ====== SECTIONS ====== */
-    .panel{background:var(--panel);border:1px solid var(--stroke);border-radius:18px;padding:16px;margin:18px 0;box-shadow:var(--shadow)}
+    .panel{
+      background:var(--panel);border:1px solid var(--stroke);border-radius:18px;
+      padding:16px;margin:14px 0;box-shadow:var(--shadow)
+    }
     .panel h2{
-      margin:0 0 12px; text-align:center; font-weight:800;
-      color: var(--blue); text-shadow: var(--txtshadow);
-      font-size: clamp(1.3rem, 2.6vw, 2.2rem);
-      letter-spacing:.2px;
+      margin:0 0 10px;text-align:center;color:#6f5cf7;font-size:1.8rem
     }
 
-    /* ====== LISTAS ====== */
     .card{background:#fff;border:1px solid #ececff;border-radius:16px;padding:14px;margin:10px 0;box-shadow:var(--shadow)}
     .row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-    .name{font-size: 1.25rem; color:#2a2a55}
-    .code{font-size: .95rem; color:#6b72a8; margin-top:4px}
+
+    .code{font-size:1.05rem}
+    .name{font-size:1.35rem;color:#2a2a55}
+    .muted{font-size:.95rem;color:#6b72a8;margin-top:4px}
 
     .qty,.tipo,.obs{
-      border:1px solid #d7d7f5;border-radius:12px;
-      padding:.6rem .7rem; font-size:1rem; background:#fff;
+      border:1px solid #d7d7f5;border-radius:12px;padding:.6rem .8rem;font-size:1.05rem;background:#fff;
       box-shadow:0 6px 14px rgba(106,83,242,.10);
     }
-    .qty{min-width:70px}
+    .qty{min-width:72px}
     .obs{min-width:16rem;flex:1}
 
-    .btn{ border:0;border-radius:12px;padding:.65rem .9rem;color:#fff;font-size:1rem; cursor:pointer;}
+    .btn{border:0;border-radius:12px;padding:.7rem 1rem;color:#fff;font-size:1.05rem;cursor:pointer}
     .btn.ok{background:linear-gradient(135deg,#7d89ff,#5d6bff)}
     .btn.in{background:linear-gradient(135deg,var(--accent),#10bba1)}
     .btn.out{background:linear-gradient(135deg,var(--pink),#ff2e63)}
     .btn:active{transform:scale(.98)}
 
     .badge{
-      border-radius:999px;padding:.55rem 1.0rem;font-size:1.0rem;
-      background:#f7f7ff;border:2px solid #d9d6ff;color: var(--blue);
-      text-shadow: var(--txtshadow);
-      box-shadow: var(--shade);
+      border-radius:999px;padding:.6rem 1rem;font-size:1.05rem;text-align:center;
+      background:#f7f7ff;border:2px solid #d9d6ff;min-width:160px;margin-left:auto;margin-right:auto
     }
     .b-ok{border-color:#24b07a}
     .b-warn{border-color:#f5b942}
     .b-danger{border-color:#ff2e63}
 
-    .center{ display:flex; justify-content:center; }
+    .center{display:flex;justify-content:center}
 
-    /* ====== UX ====== */
     .overlay{position:fixed;inset:0;background:#0006;display:none;align-items:center;justify-content:center;z-index:9999}
     .spinner{width:88px;height:88px;border-radius:999px;border:8px solid var(--accent);border-top-color:var(--violet);animation:spin 1s linear infinite}
     @keyframes spin{to{transform:rotate(360deg)}}
     .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#fff;border:1px solid var(--stroke);padding:.7rem 1rem;border-radius:12px;display:none;z-index:10000;box-shadow:var(--shadow)}
 
     footer{
-      text-align:center;margin:22px 0;color:#97a0d1;font-size:.95rem;font-weight:600;
-      letter-spacing:.2px;
+      text-align:center;margin:22px 0;color:#8e90c5;font-weight:700;
+      font-size:.95rem; opacity:.9
     }
-    footer b{color:#5360b9}
+    footer b{color:#6266c6}
+
+    .titlebar{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:4px
+    }
+
+    /* acessibilidade: remover foco feio */
+    button, select, input {outline: none;}
   </style>
 </head>
 <body>
   <div class="wrap">
-    <header>
-      <img src="./logo.png" class="brand" alt="HeadSet Brasil">
-      <h1 class="title">Estoque de Materiais Headset</h1>
+    <div class="titlebar">
+      <header style="flex:1 1 auto">
+        <div style="display:flex;align-items:center;gap:14px">
+          <div class="brand"><img src="logo.png" alt="HeadSet Brasil"></div>
+          <h1>Estoque de Materiais Headset</h1>
+        </div>
+      </header>
       <div class="zoom">
-        <button class="zbtn" onclick="ajustarFonte(-1)">A-</button>
-        <button class="zbtn" onclick="ajustarFonte(1)">A+</button>
+        <button class="zbtn" id="dec">A-</button>
+        <button class="zbtn" id="inc">A+</button>
       </div>
-    </header>
+    </div>
 
     <section class="panel">
       <h2>Produtos</h2>
@@ -135,173 +135,158 @@
   <div class="toast" id="toast">Pronto!</div>
 
 <script>
-/* ========= CONFIG ========= */
-const API_BASE = 'https://script.google.com/macros/s/AKfycbzVuQrA4n8uNThMruw0tpJ0Wq2xXl97DpjDb7p4laHkY4tyFkhLm4g7a0eHZGxS0y13XQ/exec'; // sua nova implantação
-const USER_EMAIL = ''; // sem pedir e-mail
+  // ====== CONFIG ======
+  const API_BASE = 'https://script.google.com/macros/s/AKfycbz99Szpvp5h5gRAXkE8j3ONJy9pqlVvb11APMmxshHiYtGd96DVw63dG2SFlPt-HYPPzQ/exec';
 
-/* ========= UI helpers ========= */
-const $ = s => document.querySelector(s);
-const elProdutos = $('#produtos');
-const elEstoque  = $('#estoque');
-const overlay    = $('#overlay');
-const toast      = $('#toast');
+  // ====== UI helpers ======
+  const $ = s => document.querySelector(s);
+  const elProdutos = $('#produtos');
+  const elEstoque  = $('#estoque');
+  const overlay    = $('#overlay');
+  const toast      = $('#toast');
 
-let _fs = Number(localStorage.getItem('eh_fs')||'100');
-document.documentElement.style.setProperty('--fs', _fs + '%');
-
-function ajustarFonte(step){
-  _fs = Math.min(240, Math.max(70, _fs + step*10));
+  let _fs = Number(localStorage.getItem('eh_fs')||'100');
   document.documentElement.style.setProperty('--fs', _fs + '%');
-  localStorage.setItem('eh_fs', String(_fs));
-}
-function showOverlay(v){ overlay.style.display = v ? 'flex' : 'none'; }
-function showToast(msg){ toast.textContent = msg||'Pronto!'; toast.style.display='block'; setTimeout(()=>toast.style.display='none',1400); }
+  $('#dec').onclick = ()=>ajustarFonte(-1);
+  $('#inc').onclick = ()=>ajustarFonte(1);
 
-function classByLevel(estoque, minimo){
-  estoque=Number(estoque||0); minimo=Number(minimo||0);
-  if(minimo>0){
-    if(estoque <= 0.25*minimo) return 'b-danger';
-    if(estoque <  minimo)      return 'b-warn';
+  function ajustarFonte(step){
+    _fs = Math.min(240, Math.max(70, _fs + step*10));
+    document.documentElement.style.setProperty('--fs', _fs + '%');
+    localStorage.setItem('eh_fs', String(_fs));
   }
-  return 'b-ok';
-}
 
-/* ========= TEMPLATES ========= */
-function productRow(it){
-  const qtdOpts = Array.from({length:50}, (_,i)=>`<option value="${i+1}">${i+1}</option>`).join('');
-  return `
-    <div class="card" id="cardL-${it.codigo}">
-      <div class="row">
-        <div>
-          <div class="name">${it.nome}</div>
-          <div class="code">Cód: ${it.codigo}</div>
-        </div>
+  function showOverlay(v){ overlay.style.display = v ? 'flex' : 'none'; }
+  function showToast(msg){ toast.textContent = msg||'Pronto!'; toast.style.display='block'; setTimeout(()=>toast.style.display='none',1500); }
 
+  function classByLevel(estoque, minimo){
+    estoque=Number(estoque||0); minimo=Number(minimo||0);
+    if(minimo>0){
+      if(estoque <= 0.25*minimo) return 'b-danger';
+      if(estoque <  minimo)      return 'b-warn';
+    }
+    return 'b-ok';
+  }
+
+  function productRow(it){
+    const qtdOpts = Array.from({length:50}, (_,i)=>`<option value="${i+1}">${i+1}</option>`).join('');
+    return `
+      <div class="card" id="cardL-${it.codigo}">
         <div class="row">
-          <select class="tipo" id="tipo-${it.codigo}">
-            <option value="Unidade">Unidade</option>
-            <option value="CX">CX</option>
-            <option value="Litro">Litro</option>
-          </select>
-          <select class="qty"  id="qty-${it.codigo}">${qtdOpts}</select>
-          <input  class="obs"  id="obs-${it.codigo}" placeholder="Obs/Justificativa"/>
-          <button class="btn ok"  onclick="clickObs('${it.codigo}')">OK</button>
-          <button class="btn in"  onclick="clickMov('ENTRADA','${it.codigo}')">Entrada</button>
-          <button class="btn out" onclick="clickMov('SAÍDA','${it.codigo}')">Saída</button>
+          <div>
+            <div class="name">${it.nome}</div>
+            <div class="code">Cód: ${it.codigo}</div>
+            <div class="muted">Estoque: <b id="left-${it.codigo}">${it.estoque ?? 0}</b></div>
+          </div>
+
+          <div class="row">
+            <select class="tipo" id="tipo-${it.codigo}">
+              <option value="Unidade">Unidade</option>
+              <option value="CX">CX</option>
+              <option value="Litro">Litro</option>
+            </select>
+            <select class="qty"  id="qty-${it.codigo}">${qtdOpts}</select>
+            <input  class="obs"  id="obs-${it.codigo}" placeholder="Obs/Justificativa"/>
+            <button class="btn ok"  onclick="clickObs('${it.codigo}')">OK</button>
+            <button class="btn in"  onclick="clickMov('ENTRADA','${it.codigo}')">Entrada</button>
+            <button class="btn out" onclick="clickMov('SAÍDA','${it.codigo}')">Saída</button>
+          </div>
         </div>
-      </div>
-    </div>`;
-}
+      </div>`;
+  }
 
-function stockRow(it){
-  return `
-    <div class="card center" id="card-${it.codigo}">
-      <div class="row" style="width:100%;justify-content:space-between;">
-        <div>
-          <div class="name">${it.nome}</div>
-          <div class="code">Cód: ${it.codigo}</div>
+  function stockRow(it){
+    return `
+      <div class="card" id="card-${it.codigo}">
+        <div class="row" style="gap:16px">
+          <div>
+            <div class="name" style="text-align:left">${it.nome}</div>
+            <div class="code">Cód: ${it.codigo}</div>
+          </div>
+          <div class="badge ${classByLevel(it.estoque, it.minimo)}" id="badge-${it.codigo}">
+            Estoque: <span id="est-${it.codigo}">${it.estoque ?? 0}</span>
+          </div>
         </div>
-        <div class="badge ${classByLevel(it.estoque, it.minimo)}" id="badge-${it.codigo}">
-          Estoque: <span id="est-${it.codigo}">${it.estoque ?? 0}</span>
-        </div>
-      </div>
-    </div>`;
-}
-
-function render(items){
-  elProdutos.innerHTML = items.map(productRow).join('');
-  elEstoque.innerHTML  = items.map(stockRow).join('');
-}
-
-/* ========= API ========= */
-async function apiListar(){
-  const url = API_BASE + '?act=listar';
-  const r = await fetch(url, {mode:'cors', cache:'no-store'});
-  if (!r.ok) throw new Error('HTTP '+r.status);
-  return await r.json();
-}
-
-async function apiMovimentar(tipo, codigo, qtd, unidade, obs){
-  const p = new URLSearchParams({
-    act:'movimentar', tipo, codigo, qtd: String(qtd||0), unidade: String(unidade||''), obs: String(obs||''), user: USER_EMAIL
-  });
-  const r = await fetch(API_BASE + '?' + p.toString(), {mode:'cors', cache:'no-store'});
-  if (!r.ok) throw new Error('HTTP '+r.status);
-  return await r.json();
-}
-
-async function apiObservacao(codigo, obs){
-  const p = new URLSearchParams({
-    act:'observacao', codigo, obs: String(obs||''), user: USER_EMAIL
-  });
-  const r = await fetch(API_BASE + '?' + p.toString(), {mode:'cors', cache:'no-store'});
-  if (!r.ok) throw new Error('HTTP '+r.status);
-  return await r.json();
-}
-
-/* ========= Actions ========= */
-function findItem(cod){ return (window._items||[]).find(x=>x.codigo===cod); }
-
-async function clickMov(tipo, codigo){
-  const qtdSel  = document.getElementById('qty-'+codigo);
-  const tipoSel = document.getElementById('tipo-'+codigo);
-  const obsInp  = document.getElementById('obs-'+codigo);
-
-  const qtd     = Number(qtdSel?.value || 1);
-  const unidade = String(tipoSel?.value || 'Unidade');
-  const obs     = String(obsInp?.value || '');
-
-  try{
-    showOverlay(true);
-    const res = await apiMovimentar(tipo, codigo, qtd, unidade, obs);
-    const it = findItem(codigo);
-    if (it){ it.estoque = res.estoque; }
-    const e = document.getElementById('est-'+codigo);
-    const b = document.getElementById('badge-'+codigo);
-    if (e) e.textContent = res.estoque;
-    if (b && it) b.className = 'badge ' + classByLevel(res.estoque, it.minimo||0);
-    showToast('Pronto!');
-  }catch(err){
-    alert('Erro: '+ (err?.message || err));
-  }finally{
-    showOverlay(false);
+      </div>`;
   }
-}
 
-async function clickObs(codigo){
-  const obsInp  = document.getElementById('obs-'+codigo);
-  const obs     = String(obsInp?.value || '').trim();
-  if (!obs){ alert('Escreva a observação antes de tocar em OK.'); return; }
-  try{
-    showOverlay(true);
-    await apiObservacao(codigo, obs);
-    obsInp.value = '';
-    showToast('Observação salva!');
-  }catch(err){
-    alert('Erro: '+ (err?.message || err));
-  }finally{
-    showOverlay(false);
+  function render(items){
+    elProdutos.innerHTML = items.map(productRow).join('');
+    elEstoque.innerHTML  = items.map(stockRow).join('');
   }
-}
 
-/* ========= Init ========= */
-(async function init(){
-  try{
-    showOverlay(true);
-    const items = await apiListar();
-    window._items = (items||[]).map(x=>Object.assign({},x));
-    render(window._items);
-  }catch(err){
-    alert('Não foi possível carregar os produtos.\n' + (err?.message || err));
-  }finally{
-    showOverlay(false);
+  function findItem(cod){ return (window._items||[]).find(x=>x.codigo===cod); }
+
+  // ====== API helpers ======
+  async function apiGET(params){
+    const url = API_BASE + '?' + new URLSearchParams(params);
+    const ctrl = new AbortController();
+    const t = setTimeout(()=>ctrl.abort(), 12000);
+    try{
+      const r = await fetch(url, {signal: ctrl.signal, credentials: 'omit', cache: 'no-store'});
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return await r.json();
+    } finally { clearTimeout(t); }
   }
-})();
 
-/* ========= PWA ========= */
-if ('serviceWorker' in navigator){
-  window.addEventListener('load', ()=> navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
-}
+  async function clickMov(tipo, codigo){
+    const qtdSel  = document.getElementById('qty-'+codigo);
+    const tipoSel = document.getElementById('tipo-'+codigo);
+    const obsInp  = document.getElementById('obs-'+codigo);
+
+    const qtd     = Number(qtdSel?.value || 1);
+    const unidade = String(tipoSel?.value || 'Unidade');
+    const obs     = String(obsInp?.value || '');
+
+    showOverlay(true);
+    try{
+      const res = await apiGET({act:'movimentar', tipo, codigo, qtd, unidade, obs});
+      const it = findItem(codigo);
+      if (it){ it.estoque = res.estoque; }
+      const l = document.getElementById('left-'+codigo);
+      const e = document.getElementById('est-'+codigo);
+      const b = document.getElementById('badge-'+codigo);
+      if (l) l.textContent = res.estoque;
+      if (e) e.textContent = res.estoque;
+      if (b && it) b.className = 'badge ' + classByLevel(res.estoque, it.minimo||0);
+      showToast('Pronto!');
+    } catch(err){
+      alert('Não foi possível registrar a movimentação.\n' + (err?.message||err));
+    } finally { showOverlay(false); }
+  }
+
+  async function clickObs(codigo){
+    const obsInp  = document.getElementById('obs-'+codigo);
+    const obs     = String(obsInp?.value || '').trim();
+    if (!obs){ alert('Escreva a observação antes de tocar em OK.'); return; }
+    showOverlay(true);
+    try{
+      await apiGET({act:'observacao', codigo, obs});
+      obsInp.value = '';
+      showToast('Observação salva!');
+    } catch(err){
+      alert('Falha ao salvar observação.\n' + (err?.message||err));
+    } finally { showOverlay(false); }
+  }
+
+  async function boot(){
+    showOverlay(true);
+    try{
+      const items = await apiGET({act:'listar'});
+      window._items = (items||[]).map(x=>Object.assign({},x));
+      render(window._items);
+    } catch(err){
+      alert('Não foi possível carregar os produtos.\n' + (err?.message||err));
+    } finally { showOverlay(false); }
+  }
+
+  // PWA
+  if ('serviceWorker' in navigator){
+    navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+  }
+
+  // init
+  boot();
 </script>
 </body>
 </html>
