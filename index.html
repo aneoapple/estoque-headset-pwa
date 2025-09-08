@@ -1,64 +1,68 @@
 <!doctype html>
 <html lang="pt-br">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>📦 Estoque Headset</title>
+
+  <!-- PWA básico (opcional, já que o ícone no iOS usa share > Add to Home) -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#6a53f2">
-  <title>Estoque Headset</title>
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
   <style>
-    html,body{height:100%;margin:0}
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto;background:#f7f4ff}
-    .bar{position:fixed;left:0;right:0;top:0;height:52px;display:flex;align-items:center;
-         padding:0 14px;gap:10px;background:#fff;border-bottom:1px solid #eee;z-index:2}
-    .logo{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#6a53f2,#ff5bb0)}
-    .title{font-weight:800}
-    .wrap{position:fixed;inset:52px 0 0 0}
-    iframe{border:0;width:100%;height:100%}
-    .fallback{position:absolute;inset:0;display:grid;place-items:center}
-    .card{background:#fff;padding:22px;border:1px solid #efe9ff;border-radius:16px;
-          box-shadow:0 14px 36px rgba(106,83,242,.16);max-width:640px}
-    .btn{display:inline-block;margin-top:10px;background:#6a53f2;color:#fff;padding:12px 16px;
-         border-radius:12px;text-decoration:none;font-weight:700}
+    :root{ --violet:#6a53f2; --ink:#0f1431; }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto;
+      background: radial-gradient(1200px 500px at 50% 20%, #f1ecff 0%, #ffffff 60%);
+      color:var(--ink);
+      display:flex; align-items:center; justify-content:center; padding:24px;
+    }
+    .card{
+      width:min(720px, 94vw);
+      background:#fff; border:1px solid #ece9ff; border-radius:20px;
+      box-shadow:0 22px 60px rgba(106,83,242,.18);
+      padding:28px;
+    }
+    h1{margin:0 0 10px; font-size:clamp(22px,4vw,36px)}
+    .sub{color:#6a6e9f; margin-bottom:22px; font-size:clamp(14px,2.8vw,18px)}
+    .btn{
+      display:inline-block; background:var(--violet); color:#fff; text-decoration:none;
+      padding:16px 22px; border-radius:14px; font-weight:700; font-size:20px;
+      box-shadow:0 14px 30px rgba(106,83,242,.28);
+    }
+    .hint{margin-top:18px; color:#8186b2; font-size:15px}
+    .logo{font-size:32px; margin-right:8px}
   </style>
 </head>
 <body>
-  <div class="bar">
-    <div class="logo"></div>
-    <div class="title">📦 Estoque Headset</div>
-  </div>
+  <div class="card">
+    <h1><span class="logo">📦</span>Estoque Headset</h1>
+    <div class="sub">Toque no botão abaixo para abrir o aplicativo.</div>
 
-  <div class="wrap">
-    <!-- App embutido: mantém o mesmo domínio do PWA -->
-    <iframe id="app"
-      src="https://script.google.com/macros/s/AKfycbwKsk6mfZ2UHYfRY--rhyioYaTYUMoxp6kK1flekZjLAVMCgwU7z_f5MkzKSsXEHm7NCQ/exec"
-      allow="fullscreen">
-    </iframe>
+    <!-- ✅ Link direto (ação do usuário). iOS permite navegar sem bloquear. -->
+    <p>
+      <a class="btn" id="openBtn"
+         href="https://script.google.com/macros/s/AKfycbwKsk6mfZ2UHYfRY--rhyioYaTYUMoxp6kK1flekZjLAVMCgwU7z_f5MkzKSsXEHm7NCQ/exec"
+         rel="noopener" target="_self">Abrir agora</a>
+    </p>
 
-    <!-- fallback caso o iframe seja bloqueado -->
-    <div class="fallback" id="fb" style="display:none">
-      <div class="card">
-        <div>Não foi possível carregar dentro do app.</div>
-        <a class="btn"
-           href="https://script.google.com/macros/s/AKfycbwKsk6mfZ2UHYfRY--rhyioYaTYUMoxp6kK1flekZjLAVMCgwU7z_f5MkzKSsXEHm7NCQ/exec">
-          Abrir no navegador
-        </a>
-      </div>
+    <div class="hint">
+      Se estiver usando iPhone, você pode tocar no botão
+      <b>Compartilhar ▸ Adicionar à Tela de Início</b> para instalar como atalho.
     </div>
   </div>
 
   <script>
-    // mostra fallback se o iframe não carregar
-    const f = document.getElementById('app');
-    const fb = document.getElementById('fb');
-    let ok = false;
-    f.addEventListener('load', ()=> ok = true);
-    setTimeout(()=>{ if(!ok) fb.style.display = 'grid'; }, 2500);
-
-    // registra o SW para instalar como app
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
-    }
+    // Fallback: se o usuário quiser auto-abrir, fazemos APÓS interação (iOS não bloqueia).
+    // Ex.: tocar duas vezes: primeira carrega, segunda tenta auto-redirect. Opcional.
+    document.getElementById('openBtn').addEventListener('click', ()=>{
+      // nada: navegará pelo href acima (target=_self), que é o mais confiável no iOS.
+    });
   </script>
 </body>
 </html>
