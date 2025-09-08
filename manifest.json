@@ -1,14 +1,12 @@
 {
-  "name": "Estoque Headset",
-  "short_name": "Estoque",
-  "start_url": ".",
-  "scope": ".",
+  "name": "Estoque de Materiais Headset",
+  "short_name": "Estoque Headset",
+  "start_url": "./index.html",
   "display": "standalone",
-  "theme_color": "#6c4df5",
   "background_color": "#ffffff",
-  "orientation": "portrait",
+  "theme_color": "#6a53f2",
   "icons": [
-    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png"}
   ]
 }
