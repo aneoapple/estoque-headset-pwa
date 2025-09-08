@@ -1,60 +1,78 @@
 <!doctype html>
 <html lang="pt-br">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>📦 Estoque Headset</title>
-  <meta name="theme-color" content="#6c4df5">
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="icon-192.png" sizes="192x192">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Estoque Headset</title>
+  <meta name="theme-color" content="#6c4df5" />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" href="./icon-192.png" />
   <style>
-    :root{--violet:#6a53f2}
+    :root{ --ink:#14162b; --muted:#7b86bc; --violet:#6c4df5; }
     *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial;background:#f6f5ff;color:#1f2050}
-    .wrap{max-width:720px;margin:18vh auto 0;padding:16px}
-    .card{background:#fff;border:1px solid #ece9ff;border-radius:18px;box-shadow:0 20px 60px rgba(106,83,242,.18),0 8px 20px rgba(106,83,242,.12);padding:28px}
-    h1{display:flex;align-items:center;gap:10px;margin:0 0 8px;font-size:28px}
-    .icon{width:28px;height:28px;border-radius:8px;background:#fff url("icon-192.png") center/cover no-repeat;box-shadow:0 0 0 2px #fff,0 8px 18px rgba(0,0,0,.15)}
-    p{margin:0 0 18px;color:#6066a5;font-weight:600}
-    .btn{appearance:none;border:0;border-radius:12px;background:#6b62ff;color:#fff;font-weight:700;padding:14px 18px;font-size:16px;cursor:pointer}
-    .btn:active{transform:translateY(1px)}
-    .hint{margin-top:12px;color:#8b90c7;font-size:14px}
-    .center{display:flex;gap:10px;align-items:center}
-    .link{color:#6b62ff;text-decoration:underline;cursor:pointer}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto;
+      background:#f6f4ff; color:var(--ink);
+      display:flex; align-items:center; justify-content:center; padding:24px;
+    }
+    .card{
+      width:min(880px,100%); background:#fff; border-radius:24px;
+      padding:32px 36px; box-shadow:0 40px 120px rgba(108,77,245,.18);
+    }
+    .title{display:flex; gap:16px; align-items:center; margin:0 0 8px}
+    .title img{width:44px;height:44px;border-radius:50%}
+    h1{font-size:42px; line-height:1.1; margin:0}
+    p{margin:0; color:var(--muted); font-weight:600}
+    .cta{display:flex; gap:16px; margin-top:28px; align-items:center}
+    .btn{
+      appearance:none; border:0; border-radius:14px; padding:16px 26px;
+      background:#6c4df5; color:#fff; font-size:18px; font-weight:800; cursor:pointer;
+      box-shadow:0 20px 40px rgba(108,77,245,.25);
+    }
+    .link{font-size:20px; font-weight:800; color:#5a54d9; text-decoration:none}
+    .hint{margin-top:18px; color:#9aa3d4; font-weight:700}
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card">
-      <h1><span class="icon"></span>Estoque Headset</h1>
-      <p>Abrindo o aplicativo…</p>
-      <div class="center">
-        <button id="openBtn" class="btn">Abrir agora</button>
-        <a id="rawLink" class="link" rel="noreferrer">abrir em nova aba</a>
-      </div>
-      <div class="hint">Se o redirecionamento automático não acontecer, toque em <b>Abrir agora</b>.</div>
+  <main class="card">
+    <div class="title">
+      <img src="./icon-192.png" alt="logo">
+      <h1>Estoque Headset</h1>
     </div>
-  </div>
+    <p>Abrindo o aplicativo…</p>
+    <div class="cta">
+      <button id="open" class="btn">Abrir agora</button>
+      <a id="openNew" class="link" href="#" rel="noopener">abrir em nova aba</a>
+    </div>
+    <p class="hint">Se o redirecionamento automático não acontecer, toque em <b>Abrir agora</b>.</p>
+  </main>
 
   <script>
-    // 👉 COLE aqui a URL do seu Apps Script (exec)
-    const APP_URL = "https://script.google.com/macros/s/AKfycbxmIF9DTp7Ao4GuS2WXUZU6qwtB7iNK4u_k_zFTWHAwdTr7H6kujLY_QQpQp0egHvHLZw/exec";
+    // 🔗 URL do seu Apps Script (NOVA)
+    const APP_URL = "https://script.google.com/macros/s/AKfycbx4BguCm3hnMO90-Z5qCT7Ha4X6Woesbolxkoe-oIxUfQ2_zPxfcSQCWX9zj7lKGHqD1w/exec";
 
-    // iOS/Safari tem bloqueios – sempre oferecemos botão e um target=_blank
-    const btn = document.getElementById('openBtn');
-    const a2  = document.getElementById('rawLink');
-    a2.href   = APP_URL; a2.target = "_blank";
+    // iOS/Safari costuma bloquear auto-redirect. Fazemos um open com usuário-gesture.
+    const btn = document.getElementById('open');
+    const link = document.getElementById('openNew');
 
-    // tentativa automática com fallback: primeira em _self, depois abre nova aba
-    function go(){
-      try{ window.location.href = APP_URL; }catch(e){}
-      // fallback em 1200ms para abrir nova aba (melhor para iOS)
-      setTimeout(()=>{ window.open(APP_URL, '_blank', 'noopener'); }, 1200);
+    function openApp(sameTab=true){
+      try{
+        if (sameTab) location.href = APP_URL;
+        else window.open(APP_URL, '_blank', 'noopener');
+      }catch(e){ location.href = APP_URL; }
     }
-    btn.addEventListener('click', go);
 
-    // auto-tentativa após carregar
-    setTimeout(go, 400);
+    btn.addEventListener('click', () => openApp(true));
+    link.addEventListener('click', (e) => { e.preventDefault(); openApp(false); });
+
+    // Tentativa discreta após 800ms (Android costuma aceitar)
+    setTimeout(()=>openApp(true), 800);
+
+    // registra SW (cache offline só do shell; API passa direto)
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+    }
   </script>
 </body>
 </html>
