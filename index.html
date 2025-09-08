@@ -3,145 +3,194 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"/>
-  <meta name="theme-color" content="#6a53f2">
+  <meta name="theme-color" content="#6c4df5">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>📦 Estoque de Materiais Headset</title>
   <link rel="manifest" href="manifest.json">
-  <title>Estoque de Materiais Headset</title>
+  <link rel="icon" href="logo.png">
   <style>
-    :root{ --fs:100%; --ink:#0f1431; --ink2:#636aa0; --panel:#fff; --stroke:#efe9ff; --violet:#6a53f2; --accent:#22eacb; --pink:#ff5bb0;
-           --shadow:0 18px 48px rgba(106,83,242,.18),0 6px 18px rgba(106,83,242,.12);}
-    *{box-sizing:border-box} html{font-size:var(--fs)}
-    body{margin:0;background:#fff;color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial;font-weight:700;}
+    :root{
+      --fs: 100%;
+      --ink:#0f1431; --ink2:#636aa0;
+      --panel:#ffffff; --stroke:#efe9ff;
+      --violet:#6a53f2; --accent:#22eacb; --pink:#ff5bb0;
+      --shadow: 0 18px 48px rgba(106,83,242,.18), 0 6px 18px rgba(106,83,242,.12);
+    }
+    *{box-sizing:border-box}
+    html{font-size: var(--fs);}
+    body{
+      margin:0; padding:0; background:#fff; color:var(--ink);
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial;
+      font-weight:700;
+    }
     .wrap{max-width:1100px;margin:0 auto;padding:16px}
-    header{display:flex;gap:14px;align-items:center;justify-content:center;margin:12px 0 10px}
-    .logo{width:72px;height:72px;border-radius:18px;object-fit:contain;filter:drop-shadow(0 10px 24px rgba(106,83,242,.35))}
-    h1{margin:0;line-height:1.05;text-align:center;font-size:clamp(1.8rem,3vw+1rem,2.8rem);color:#1f39c4;text-shadow:0 10px 28px rgba(106,83,242,.35)}
-    .sub{color:var(--ink2);font-size:.98rem;text-align:center}
-
-    .zoom{position:sticky;top:8px;display:flex;gap:10px;justify-content:flex-end;margin:8px 0 12px;z-index:5}
-    .zbtn{font-size:1.05rem;padding:.45rem .7rem;border-radius:14px;border:2px solid var(--violet);color:var(--violet);background:#fff;cursor:pointer;box-shadow:var(--shadow)}
-
+    header{display:flex;align-items:center;gap:14px;margin:6px 0 12px;justify-content:center}
+    header img{width:64px;height:64px;border-radius:50%}
+    h1{margin:0; font-size:2rem; line-height:1.1; color:#1f39c4; text-shadow:0 6px 18px rgba(106,83,242,.35)}
+    .sub{color:var(--ink2); font-size:1rem; text-align:center}
+    .zoom{position:sticky;top:8px;display:flex;gap:12px;justify-content:flex-end;margin:8px 0 12px;z-index:5}
+    .zbtn{font-size:1.2rem; padding:.6rem 1rem; border-radius:14px; border:2px solid var(--violet); color:var(--violet); background:#fff; cursor:pointer; box-shadow:var(--shadow);}
     .panel{background:var(--panel);border:1px solid var(--stroke);border-radius:18px;padding:16px;margin:14px 0;box-shadow:var(--shadow)}
     .panel h2{margin:0 0 10px;text-align:center;color:#6a53f2;font-size:1.6rem}
-
     .card{background:#fff;border:1px solid #ececff;border-radius:16px;padding:14px;margin:10px 0;box-shadow:var(--shadow)}
     .row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-    .code{font-size:1.05rem} .name{font-size:1.35rem;color:#2a2a55} .muted{font-size:.95rem;color:#6b72a8;margin-top:4px}
-    .qty,.tipo,.obs{border:1px solid #d7d7f5;border-radius:12px;padding:.55rem .75rem;font-size:1.02rem;background:#fff;box-shadow:0 6px 14px rgba(106,83,242,.10)}
-    .qty{min-width:72px} .obs{min-width:16rem;flex:1}
-    .btn{border:0;border-radius:12px;padding:.58rem .9rem;color:#fff;font-size:1.02rem;cursor:pointer}
-    .btn.ok{background:linear-gradient(135deg,#7d89ff,#5d6bff)} .btn.in{background:linear-gradient(135deg,var(--accent),#10bba1)} .btn.out{background:linear-gradient(135deg,var(--pink),#ff2e63)}
-    .badge{border-radius:999px;padding:.55rem .9rem;font-size:1rem;background:#f7f7ff;border:2px solid #d9d6ff}
-    .b-ok{border-color:#24b07a}.b-warn{border-color:#f5b942}.b-danger{border-color:#ff2e63}
+    .code{font-size:1rem}
+    .name{font-size:1.3rem; color:#2a2a55}
+    .muted{font-size:.9rem; color:#6b72a8; margin-top:4px}
+    .qty,.tipo,.obs{border:1px solid #d7d7f5;border-radius:12px;padding:.5rem .7rem;font-size:1rem;background:#fff;box-shadow:0 6px 14px rgba(106,83,242,.10);}
+    .qty{min-width:72px}
+    .obs{min-width:14rem;flex:1}
+    .btn{border:0;border-radius:12px;padding:.6rem .9rem;color:#fff;font-size:1rem;cursor:pointer;}
+    .btn.ok{background:linear-gradient(135deg,#7c7aff,#6a53f2)}
+    .btn.in{background:linear-gradient(135deg,var(--accent),#10bba1)}
+    .btn.out{background:linear-gradient(135deg,var(--pink),#ff2e63)}
+    .btn:active{transform:scale(.98)}
+    .badge{border-radius:999px;padding:.5rem .9rem;font-size:1rem;background:#f7f7ff;border:2px solid #d9d6ff}
+    .b-ok{border-color:#24b07a}
+    .b-warn{border-color:#f5b942}
+    .b-danger{border-color:#ff2e63}
     .overlay{position:fixed;inset:0;background:#0006;display:none;align-items:center;justify-content:center;z-index:9999}
-    .spinner{width:88px;height:88px;border-radius:999px;border:8px solid var(--accent);border-top-color:var(--violet);animation:spin 1s linear infinite}
-    @keyframes spin{to{transform:rotate(360deg)}} .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#fff;border:1px solid var(--stroke);padding:.7rem 1rem;border-radius:12px;display:none;z-index:10000;box-shadow:var(--shadow)}
-    footer{text-align:center;margin:26px 0;color:#8b8fb8;font-size:.9rem;font-weight:600} footer b{color:#0d0d44}
+    .spinner{width:72px;height:72px;border-radius:999px;border:6px solid var(--accent);border-top-color:var(--violet);animation:spin 1s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#fff;border:1px solid var(--stroke);padding:.7rem 1rem;border-radius:12px;display:none;z-index:10000;box-shadow:var(--shadow)}
+    footer{text-align:center;margin:22px 0;color:#777;font-size:.9rem}
+    footer b{color:#0d0d44}
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <img class="logo" src="./icon-192.png" alt="HeadSet Brasil"/>
+      <img src="logo.png" alt="Logo">
       <div>
         <h1>Estoque de Materiais Headset</h1>
-        <div class="sub">Toque no produto, escolha <b>Tipo</b>, a quantidade e registre a movimentação. Para registrar só uma observação, use o botão <b>OK</b>.</div>
+        <div class="sub">Toque no produto, escolha <b>Tipo</b>, a quantidade e registre a movimentação. Para observação, use o botão <b>OK</b>.</div>
       </div>
     </header>
-
     <div class="zoom">
       <button class="zbtn" onclick="ajustarFonte(-1)">A-</button>
       <button class="zbtn" onclick="ajustarFonte(1)">A+</button>
     </div>
-
-    <section class="panel"><h2>Produtos</h2><div id="produtos"></div></section>
-    <section class="panel"><h2>Estoque Atual</h2><div id="estoque"></div></section>
+    <section class="panel">
+      <h2>Produtos</h2>
+      <div id="produtos"></div>
+    </section>
+    <section class="panel">
+      <h2>Estoque Atual</h2>
+      <div id="estoque"></div>
+    </section>
     <footer>Desenvolvido por <b>Alexandre Cavalcante — HD TECH —</b></footer>
   </div>
-
   <div class="overlay" id="overlay"><div class="spinner"></div></div>
   <div class="toast" id="toast">Pronto!</div>
 
 <script>
-  // ========= CONFIGURE AQUI =========
-  const API_BASE = "https://script.google.com/macros/s/AKfycbyQya0PQvbfB48g5c7EQ2uGL3T9sKMBP3Xqm95kdK2y_L-NnuHUQeB5w0jctVQxOIKODQ/exec";
-  // ==================================
+  // 🔗 Cole aqui o link googleusercontent.com (que retorna JSON da planilha)
+  const API_BASE = "https://script.googleusercontent.com/macros/echo?user_content_key=COLE_SEU_LINK_AQUI";
 
-  const $=s=>document.querySelector(s);
-  const elProdutos=$('#produtos'), elEstoque=$('#estoque'), overlay=$('#overlay'), toast=$('#toast');
+  const $ = s => document.querySelector(s);
+  const elProdutos = $('#produtos');
+  const elEstoque  = $('#estoque');
+  const overlay    = $('#overlay');
+  const toast      = $('#toast');
 
-  let _fs = Number(localStorage.getItem('eh_fs')||'100');
-  document.documentElement.style.setProperty('--fs', _fs + '%');
-  function ajustarFonte(step){ _fs=Math.min(240,Math.max(70,_fs+step*10)); document.documentElement.style.setProperty('--fs',_fs+'%'); localStorage.setItem('eh_fs', String(_fs)); }
-  function showOverlay(v){ overlay.style.display = v?'flex':'none'; }
-  function showToast(msg){ toast.textContent=msg||'Pronto!'; toast.style.display='block'; setTimeout(()=>toast.style.display='none',1400); }
-  function classByLevel(estoque,minimo){ estoque=Number(estoque||0); minimo=Number(minimo||0);
-    if(minimo>0){ if(estoque<=0.25*minimo) return 'b-danger'; if(estoque<minimo) return 'b-warn'; } return 'b-ok'; }
-
+  function ajustarFonte(step){
+    let fs = Number(localStorage.getItem('eh_fs')||'100');
+    fs = Math.min(240, Math.max(70, fs + step*10));
+    document.documentElement.style.setProperty('--fs', fs + '%');
+    localStorage.setItem('eh_fs', fs);
+  }
+  function showOverlay(v){ overlay.style.display = v ? 'flex' : 'none'; }
+  function showToast(msg){ toast.textContent = msg||'Pronto!'; toast.style.display='block'; setTimeout(()=>toast.style.display='none',1400); }
+  function classByLevel(estoque, minimo){
+    estoque=Number(estoque||0); minimo=Number(minimo||0);
+    if(minimo>0){
+      if(estoque <= 0.25*minimo) return 'b-danger';
+      if(estoque <  minimo)      return 'b-warn';
+    }
+    return 'b-ok';
+  }
   function productRow(it){
-    const qtdOpts=Array.from({length:50},(_,i)=>`<option value="${i+1}">${i+1}</option>`).join('');
-    return `<div class="card" id="cardL-${it.codigo}">
+    const qtdOpts = Array.from({length:50}, (_,i)=>`<option value="${i+1}">${i+1}</option>`).join('');
+    return `<div class="card">
       <div class="row">
-        <div><div class="name">${it.nome}</div><div class="code">Cód: ${it.codigo}</div><div class="muted">Estoque: <b id="left-${it.codigo}">${it.estoque??0}</b></div></div>
+        <div>
+          <div class="name">${it.nome}</div>
+          <div class="code">Cód: ${it.codigo}</div>
+          <div class="muted">Estoque: <b id="left-${it.codigo}">${it.estoque}</b></div>
+        </div>
         <div class="row">
-          <select class="tipo" id="tipo-${it.codigo}"><option>Unidade</option><option>CX</option><option>Litro</option></select>
+          <select class="tipo" id="tipo-${it.codigo}">
+            <option value="Unidade">Unidade</option>
+            <option value="CX">CX</option>
+            <option value="Litro">Litro</option>
+          </select>
           <select class="qty" id="qty-${it.codigo}">${qtdOpts}</select>
           <input class="obs" id="obs-${it.codigo}" placeholder="Obs/Justificativa"/>
           <button class="btn ok"  onclick="clickObs('${it.codigo}')">OK</button>
           <button class="btn in"  onclick="clickMov('ENTRADA','${it.codigo}')">Entrada</button>
           <button class="btn out" onclick="clickMov('SAÍDA','${it.codigo}')">Saída</button>
         </div>
-      </div></div>`;}
-  function stockRow(it){ return `<div class="card" id="card-${it.codigo}">
-    <div class="row"><div><div class="name">${it.nome}</div><div class="code">Cód: ${it.codigo}</div></div>
-    <div class="badge ${classByLevel(it.estoque,it.minimo)}" id="badge-${it.codigo}">Estoque: <span id="est-${it.codigo}">${it.estoque??0}</span></div></div></div>`;}
-  function render(items){ elProdutos.innerHTML=items.map(productRow).join(''); elEstoque.innerHTML=items.map(stockRow).join(''); }
-  function findItem(cod){ return (window._items||[]).find(x=>x.codigo===cod); }
-
+      </div>
+    </div>`;
+  }
+  function stockRow(it){
+    return `<div class="card">
+      <div class="row">
+        <div><div class="name">${it.nome}</div><div class="code">Cód: ${it.codigo}</div></div>
+        <div class="badge ${classByLevel(it.estoque, it.minimo)}">Estoque: <span id="est-${it.codigo}">${it.estoque}</span></div>
+      </div>
+    </div>`;
+  }
+  function render(items){
+    elProdutos.innerHTML = items.map(productRow).join('');
+    elEstoque.innerHTML  = items.map(stockRow).join('');
+  }
   async function carregarItens(){
     showOverlay(true);
     try{
-      const r = await fetch(API_BASE+'?act=listar',{cache:'no-store',mode:'cors'});
-      if(!r.ok) throw new Error('HTTP '+r.status);
-      const data = await r.json();
-      window._items = (data||[]).map(x=>Object.assign({},x));
+      const resp = await fetch(API_BASE + "&act=listar");
+      const data = await resp.json();
+      window._items = data;
       render(window._items);
-    }catch(e){ alert('Erro ao carregar itens: '+ e.message); }
+    }catch(err){
+      alert("Erro ao carregar itens: " + err.message);
+    }
     showOverlay(false);
   }
-
-  async function postJSON(act, payload){
-    const r = await fetch(API_BASE+'?act='+act,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-    if(!r.ok) throw new Error('HTTP '+r.status);
-    return await r.json();
-  }
-
-  async function clickMov(tipo,codigo){
-    const qtd=Number((document.getElementById('qty-'+codigo)?.value)||1);
-    const unidade=String((document.getElementById('tipo-'+codigo)?.value)||'Unidade');
-    const obs=String((document.getElementById('obs-'+codigo)?.value)||'');
+  async function clickMov(tipo, codigo){
+    const qtd     = document.getElementById('qty-'+codigo)?.value || 1;
+    const unidade = document.getElementById('tipo-'+codigo)?.value || 'Unidade';
+    const obs     = document.getElementById('obs-'+codigo)?.value || '';
     showOverlay(true);
     try{
-      const res = await postJSON('movimentar',{tipo,codigo,qtd,unidade,obs,user:''});
-      if(!res.ok && res.estoque===undefined && res.codigo===undefined) throw new Error(res.error||'Falha');
-      const it=findItem(codigo); if(it){ it.estoque=res.estoque; }
-      const l=$('#left-'+codigo), e=$('#est-'+codigo), b=$('#badge-'+codigo);
-      if(l) l.textContent=res.estoque; if(e) e.textContent=res.estoque; if(b&&it) b.className='badge '+classByLevel(res.estoque,it.minimo||0);
-      showToast('Pronto!');
-    }catch(err){ alert('Erro: '+err.message); }
+      const res = await fetch(API_BASE + "&act=movimentar", {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({tipo, codigo, qtd, unidade, obs})
+      }).then(r=>r.json());
+      const it = window._items.find(x=>x.codigo===codigo);
+      if (it){ it.estoque = res.estoque; }
+      document.getElementById('left-'+codigo).textContent = res.estoque;
+      document.getElementById('est-'+codigo).textContent  = res.estoque;
+      showToast("Movimentação registrada!");
+    }catch(err){ alert("Erro: "+err.message); }
     showOverlay(false);
   }
-
   async function clickObs(codigo){
-    const obs=String((document.getElementById('obs-'+codigo)?.value)||'').trim();
-    if(!obs){ alert('Escreva a observação antes de tocar em OK.'); return; }
+    const obs = document.getElementById('obs-'+codigo)?.value || '';
+    if (!obs){ alert("Escreva uma observação!"); return; }
     showOverlay(true);
-    try{ await postJSON('observacao',{codigo,obs,user:''}); showToast('Observação salva!'); document.getElementById('obs-'+codigo).value=''; }
-    catch(err){ alert('Erro: '+err.message); }
+    try{
+      await fetch(API_BASE + "&act=observacao", {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({codigo, obs})
+      });
+      showToast("Observação registrada!");
+    }catch(err){ alert("Erro: "+err.message); }
     showOverlay(false);
   }
-
-  (function init(){ carregarItens(); })();
-  if('serviceWorker' in navigator){ navigator.serviceWorker.register('./service-worker.js').catch(()=>{}); }
+  carregarItens();
 </script>
 </body>
 </html>
