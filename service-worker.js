@@ -5,7 +5,8 @@ const APP_SHELL = [
   './index.html',
   './manifest.json',
   './icon-192.png',
-  './icon-512.png'
+  './icon-512.png',
+  './logo.png'
 ];
 
 // instala e pré-cacheia shell
@@ -30,7 +31,7 @@ self.addEventListener('fetch', (e) => {
 
   // Deixa a API do Apps Script passar direto (evita CORS/cache)
   if (url.hostname.includes('script.google.com') || url.hostname.includes('script.googleusercontent.com')) {
-    return; // não responde — o browser segue normal
+    return; // o browser trata normalmente
   }
 
   e.respondWith(
