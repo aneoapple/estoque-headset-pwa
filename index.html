@@ -1,56 +1,40 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>📦 Estoque Headset</title>
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#6c4df5">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Estoque Headset</title>
+  <meta name="theme-color" content="#6a53f2">
   <style>
-    body{font-family:Arial,sans-serif;margin:0;padding:0;background:#f8f9ff}
-    header{padding:1rem;text-align:center;background:#6c4df5;color:#fff}
-    .card{background:#fff;margin:1rem;padding:1rem;border-radius:10px;box-shadow:0 2px 6px #ccc}
-    .name{font-size:1.3rem;font-weight:bold}
-    .code{font-size:.9rem;color:#555}
-    .badge{padding:.4rem .8rem;border-radius:20px;font-size:.9rem}
-    .b-ok{background:#dff5ec}
-    .b-warn{background:#fff5d4}
-    .b-danger{background:#ffd6d6}
+    :root{--violet:#6a53f2}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial}
+    .wrap{min-height:100dvh;display:grid;place-items:center;background:#f7f5ff}
+    .card{background:#fff;box-shadow:0 18px 48px rgba(106,83,242,.18),0 6px 18px rgba(106,83,242,.12);
+          border-radius:18px;padding:28px;max-width:640px;margin:24px}
+    h1{margin:0 0 6px;font-size:28px}
+    p{margin:0 0 18px;color:#5b5f7e}
+    a.btn{display:inline-block;background:var(--violet);color:#fff;text-decoration:none;
+          padding:12px 18px;border-radius:12px;font-weight:600}
+    .small{font-size:14px;color:#7a7ea5;margin-top:10px}
   </style>
+  <script>
+    // URL do seu Apps Script (EXEC)
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbwKsk6mfZ2UHYfRY--rhyioYaTYUMoxp6kK1flekZjLAVMCgwU7z_f5MkzKSsXEHm7NCQ/exec";
+    // redireciona no carregamento (top-level navigation)
+    window.addEventListener('DOMContentLoaded',()=>{
+      try{ window.location.replace(GAS_URL); }
+      catch(_){ window.location.href = GAS_URL; }
+    });
+  </script>
 </head>
 <body>
-  <header>
-    <h1>📦 Estoque de Materiais Headset</h1>
-  </header>
-  <main id="produtos">Carregando...</main>
-
-  <script>
-    const API = "https://script.google.com/macros/s/AKfycbwKsk6mfZ2UHYfRY--rhyioYaTYUMoxp6kK1flekZjLAVMCgwU7z_f5MkzKSsXEHm7NCQ/exec";
-
-    function classByLevel(e,m){
-      if(m>0){
-        if(e <= 0.25*m) return "b-danger";
-        if(e < m) return "b-warn";
-      }
-      return "b-ok";
-    }
-
-    fetch(API+"?act=listar")
-      .then(r=>r.json())
-      .then(data=>{
-        document.getElementById("produtos").innerHTML = data.map(it=>`
-          <div class="card">
-            <div class="name">${it.nome}</div>
-            <div class="code">Cód: ${it.codigo}</div>
-            <div class="badge ${classByLevel(it.estoque,it.minimo)}">
-              Estoque: ${it.estoque}
-            </div>
-          </div>
-        `).join("");
-      })
-      .catch(err=>{
-        document.getElementById("produtos").innerHTML = "Erro: "+err;
-      });
-  </script>
+  <div class="wrap">
+    <div class="card">
+      <h1>📦 Estoque Headset</h1>
+      <p>Abrindo o aplicativo…</p>
+      <p><a class="btn" href="https://script.google.com/macros/s/AKfycbwKsk6mfZ2UHYfRY--rhyioYaTYUMoxp6kK1flekZjLAVMCgwU7z_f5MkzKSsXEHm7NCQ/exec" target="_top" rel="noopener">Abrir agora</a></p>
+      <p class="small">Se o redirecionamento automático não acontecer, toque em <b>Abrir agora</b>.</p>
+    </div>
+  </div>
 </body>
 </html>
