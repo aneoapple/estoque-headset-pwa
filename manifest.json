@@ -1,8 +1,7 @@
 {
-  "name": "Estoque de Materiais Headset",
+  "name": "Estoque Headset",
   "short_name": "Estoque",
-  "start_url": "./",
-  "scope": "./",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#6a53f2",
