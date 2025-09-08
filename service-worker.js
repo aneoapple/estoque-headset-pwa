@@ -1,4 +1,4 @@
-// service-worker.js (network-first + ignora chamadas à API do Apps Script)
+// network-first para tudo, mas não intercepta a API do Apps Script
 const CACHE_NAME = 'estoque-headset-v1';
 const APP_SHELL = [
   './',
@@ -15,16 +15,14 @@ self.addEventListener('install', (e) => {
 
 self.addEventListener('activate', (e) => {
   e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.map(k => (k !== CACHE_NAME ? caches.delete(k) : null)))
-    )
+    caches.keys().then(keys => Promise.all(keys.map(k => (k !== CACHE_NAME ? caches.delete(k) : null))))
   );
   self.clients.claim();
 });
 
 self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
-  // 👉 Não cacheia/medeia chamadas ao Apps Script
+  // deixa a API do Apps Script seguir direto (evita CORS e cache incorreto)
   if (url.hostname.includes('script.google.com')) return;
 
   e.respondWith(
