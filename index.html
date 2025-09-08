@@ -1,69 +1,60 @@
 <!doctype html>
 <html lang="pt-br">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <title>📦 Estoque Headset</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#6a53f2" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
-  <link rel="apple-touch-icon" href="icon-192.png" />
-
+  <meta name="theme-color" content="#6c4df5">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon-192.png" sizes="192x192">
   <style>
-    :root{--violet:#6a53f2;--ink:#0f1431;--muted:#6f74a5;--bg:#f6f6ff;--shadow:0 25px 60px rgba(106,83,242,.18),0 8px 24px rgba(106,83,242,.12)}
+    :root{--violet:#6a53f2}
     *{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0;background:#fafaff;display:grid;place-items:center;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial}
-    .card{width:min(680px,88vw);background:#fff;border:1px solid #efe9ff;border-radius:20px;box-shadow:var(--shadow);padding:28px}
-    h1{margin:0 0 8px;font-size:clamp(20px,3.4vw,28px);color:var(--ink);display:flex;align-items:center;gap:10px}
-    .hint{color:var(--muted);margin:0 0 18px}
-    .btn{display:inline-block;border:0;border-radius:12px;padding:.9rem 1.2rem;background:linear-gradient(135deg,#7d8cff,#6a53f2);color:#fff;font-weight:700;cursor:pointer}
-    .btn:active{transform:scale(.98)}
-    .small{font-size:.95rem;color:var(--muted);margin-top:12px}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial;background:#f6f5ff;color:#1f2050}
+    .wrap{max-width:720px;margin:18vh auto 0;padding:16px}
+    .card{background:#fff;border:1px solid #ece9ff;border-radius:18px;box-shadow:0 20px 60px rgba(106,83,242,.18),0 8px 20px rgba(106,83,242,.12);padding:28px}
+    h1{display:flex;align-items:center;gap:10px;margin:0 0 8px;font-size:28px}
+    .icon{width:28px;height:28px;border-radius:8px;background:#fff url("icon-192.png") center/cover no-repeat;box-shadow:0 0 0 2px #fff,0 8px 18px rgba(0,0,0,.15)}
+    p{margin:0 0 18px;color:#6066a5;font-weight:600}
+    .btn{appearance:none;border:0;border-radius:12px;background:#6b62ff;color:#fff;font-weight:700;padding:14px 18px;font-size:16px;cursor:pointer}
+    .btn:active{transform:translateY(1px)}
+    .hint{margin-top:12px;color:#8b90c7;font-size:14px}
+    .center{display:flex;gap:10px;align-items:center}
+    .link{color:#6b62ff;text-decoration:underline;cursor:pointer}
   </style>
 </head>
 <body>
-  <main class="card">
-    <h1>📦 Estoque Headset</h1>
-    <p class="hint" id="status">Abrindo o aplicativo…</p>
-    <button class="btn" id="openBtn">Abrir agora</button>
-    <p class="small">Se o redirecionamento automático não acontecer, toque em <b>Abrir agora</b>.</p>
-  </main>
+  <div class="wrap">
+    <div class="card">
+      <h1><span class="icon"></span>Estoque Headset</h1>
+      <p>Abrindo o aplicativo…</p>
+      <div class="center">
+        <button id="openBtn" class="btn">Abrir agora</button>
+        <a id="rawLink" class="link" rel="noreferrer">abrir em nova aba</a>
+      </div>
+      <div class="hint">Se o redirecionamento automático não acontecer, toque em <b>Abrir agora</b>.</div>
+    </div>
+  </div>
 
   <script>
-    // 👉 troque aqui se mudar o link do Apps Script
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbwz7yRJjGNpF3ZLX-ZsLn4Tc_rrQqJJENijC5_beQRsMwYj16Ht_1qntHvGkiNmS8ceBw/exec";
+    // 👉 COLE aqui a URL do seu Apps Script (exec)
+    const APP_URL = "https://script.google.com/macros/s/AKfycbxmIF9DTp7Ao4GuS2WXUZU6qwtB7iNK4u_k_zFTWHAwdTr7H6kujLY_QQpQp0egHvHLZw/exec";
 
-    // iOS “Salvar na Tela de Início” abre em standalone; navegando com _self funciona.
-    function go(){ window.location.href = GAS_URL; }
-    document.getElementById('openBtn').addEventListener('click', go);
+    // iOS/Safari tem bloqueios – sempre oferecemos botão e um target=_blank
+    const btn = document.getElementById('openBtn');
+    const a2  = document.getElementById('rawLink');
+    a2.href   = APP_URL; a2.target = "_blank";
 
-    // Tenta abrir automaticamente
-    const status = document.getElementById('status');
-    let tried = false;
-    function autoOpen(){
-      if (tried) return;
-      tried = true;
-      status.textContent = "Abrindo o aplicativo…";
-      // replace = sem voltar para a launch page ao usar 'voltar'
-      window.location.replace(GAS_URL);
+    // tentativa automática com fallback: primeira em _self, depois abre nova aba
+    function go(){
+      try{ window.location.href = APP_URL; }catch(e){}
+      // fallback em 1200ms para abrir nova aba (melhor para iOS)
+      setTimeout(()=>{ window.open(APP_URL, '_blank', 'noopener'); }, 1200);
     }
-    // tenta rápido e depois garante com um novo disparo
-    setTimeout(autoOpen, 300);
-    setTimeout(()=>{ status.textContent = "Pronto para abrir."; }, 1800);
+    btn.addEventListener('click', go);
 
-    // Registra service worker para permitir instalação como PWA no Android
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
-      });
-    }
+    // auto-tentativa após carregar
+    setTimeout(go, 400);
   </script>
-
-  <noscript>
-    <meta http-equiv="refresh" content="0; url=https://script.google.com/macros/s/AKfycbwz7yRJjGNpF3ZLX-ZsLn4Tc_rrQqJJENijC5_beQRsMwYj16Ht_1qntHvGkiNmS8ceBw/exec">
-  </noscript>
 </body>
 </html>
