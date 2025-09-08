@@ -2,46 +2,68 @@
 <html lang="pt-br">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#6a53f2">
-  <title>Estoque Headset</title>
-  <style>
-    :root{--ink:#0f1431;--violet:#6a53f2}
-    *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto}
-    .wrap{min-height:100dvh;display:grid;place-items:center;padding:24px;background:#f9f7ff}
-    .card{max-width:680px;width:100%;background:#fff;border:1px solid #efe9ff;border-radius:16px;
-          padding:24px;box-shadow:0 14px 40px rgba(106,83,242,.16)}
-    h1{margin:0 0 8px;font-size:22px;color:var(--ink)} p{margin:0 0 18px;color:#61659a}
-    .btn{display:inline-block;background:var(--violet);color:#fff;padding:12px 16px;border-radius:12px;
-         text-decoration:none;font-weight:700}
-    .muted{font-size:13px;color:#8a8fbf;margin-top:12px}
-  </style>
-  <script>
-    // URL do seu Apps Script (exec)
-    const APP_URL = "https://script.google.com/macros/s/AKfycbwKsk6mfZ2UHYfRY--rhyioYaTYUMoxp6kK1flekZjLAVMCgwU7z_f5MkzKSsXEHm7NCQ/exec";
+  <title>📦 Estoque Headset</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#6a53f2" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
 
-    // Redireciona imediatamente em navegadores normais
-    window.addEventListener('load', () => {
-      try { window.location.replace(APP_URL); } catch(e) {}
-    });
-  </script>
+  <style>
+    :root{--violet:#6a53f2;--ink:#0f1431;--muted:#6f74a5;--bg:#f6f6ff;--shadow:0 25px 60px rgba(106,83,242,.18),0 8px 24px rgba(106,83,242,.12)}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:#fafaff;display:grid;place-items:center;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial}
+    .card{width:min(680px,88vw);background:#fff;border:1px solid #efe9ff;border-radius:20px;box-shadow:var(--shadow);padding:28px}
+    h1{margin:0 0 8px;font-size:clamp(20px,3.4vw,28px);color:var(--ink);display:flex;align-items:center;gap:10px}
+    .hint{color:var(--muted);margin:0 0 18px}
+    .btn{display:inline-block;border:0;border-radius:12px;padding:.9rem 1.2rem;background:linear-gradient(135deg,#7d8cff,#6a53f2);color:#fff;font-weight:700;cursor:pointer}
+    .btn:active{transform:scale(.98)}
+    .small{font-size:.95rem;color:var(--muted);margin-top:12px}
+  </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card">
-      <h1>📦 Estoque Headset</h1>
-      <p>Abrindo o aplicativo…</p>
-      <a class="btn" href="https://script.google.com/macros/s/AKfycbwKsk6mfZ2UHYfRY--rhyioYaTYUMoxp6kK1flekZjLAVMCgwU7z_f5MkzKSsXEHm7NCQ/exec" target="_self" rel="noopener">Abrir agora</a>
-      <div class="muted">Se o redirecionamento automático não acontecer, toque em <b>Abrir agora</b>.</div>
-    </div>
-  </div>
+  <main class="card">
+    <h1>📦 Estoque Headset</h1>
+    <p class="hint" id="status">Abrindo o aplicativo…</p>
+    <button class="btn" id="openBtn">Abrir agora</button>
+    <p class="small">Se o redirecionamento automático não acontecer, toque em <b>Abrir agora</b>.</p>
+  </main>
 
-  <!-- mantém o service worker para continuar instalável como PWA -->
   <script>
+    // 👉 troque aqui se mudar o link do Apps Script
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbwz7yRJjGNpF3ZLX-ZsLn4Tc_rrQqJJENijC5_beQRsMwYj16Ht_1qntHvGkiNmS8ceBw/exec";
+
+    // iOS “Salvar na Tela de Início” abre em standalone; navegando com _self funciona.
+    function go(){ window.location.href = GAS_URL; }
+    document.getElementById('openBtn').addEventListener('click', go);
+
+    // Tenta abrir automaticamente
+    const status = document.getElementById('status');
+    let tried = false;
+    function autoOpen(){
+      if (tried) return;
+      tried = true;
+      status.textContent = "Abrindo o aplicativo…";
+      // replace = sem voltar para a launch page ao usar 'voltar'
+      window.location.replace(GAS_URL);
+    }
+    // tenta rápido e depois garante com um novo disparo
+    setTimeout(autoOpen, 300);
+    setTimeout(()=>{ status.textContent = "Pronto para abrir."; }, 1800);
+
+    // Registra service worker para permitir instalação como PWA no Android
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+      });
     }
   </script>
+
+  <noscript>
+    <meta http-equiv="refresh" content="0; url=https://script.google.com/macros/s/AKfycbwz7yRJjGNpF3ZLX-ZsLn4Tc_rrQqJJENijC5_beQRsMwYj16Ht_1qntHvGkiNmS8ceBw/exec">
+  </noscript>
 </body>
 </html>
