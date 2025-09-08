@@ -2,6 +2,7 @@
   "name": "Estoque Headset",
   "short_name": "Estoque",
   "start_url": ".",
+  "scope": ".",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#6c4df5",
