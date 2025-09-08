@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>📦 Estoque Headset</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#6c4df5">
+  <link rel="apple-touch-icon" sizes="180x180" href="icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <style>
+    :root { --violet:#6c4df5; }
+    html,body { height:100%; margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial; background:#fff; }
+    .appbar{ position:fixed; inset:0 0 auto 0; height:56px; display:flex; align-items:center; gap:10px;
+      padding:0 14px; background:#fff; box-shadow:0 6px 24px rgba(108,77,245,.18); z-index:2; }
+    .logo{ width:26px; height:26px; border-radius:8px; background:linear-gradient(135deg,#6c4df5,#ff5bb0); box-shadow:0 0 18px #6c4df544; }
+    h1{ font-size:16px; margin:0; color:#171738; font-weight:800; }
+    .wrap{ position:fixed; inset:56px 0 0 0; }
+    iframe{ width:100%; height:100%; border:0; }
+    .loading{ position:absolute; inset:0; display:grid; place-items:center; background:#fff; }
+    .spinner{ width:64px; height:64px; border-radius:999px; border:7px solid #22eacb; border-top-color:#6c4df5; animation:spin 1s linear infinite; }
+    @keyframes spin{ to{ transform:rotate(360deg); } }
+    .fallback{ position:absolute; inset:auto 12px 12px 12px; text-align:center; font-weight:600; color:#333; }
+    .btn{ display:inline-block; margin-top:10px; padding:10px 14px; border-radius:12px; color:#fff; background:#6c4df5; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <div class="appbar">
+    <div class="logo"></div>
+    <h1>📦 Estoque Headset</h1>
+  </div>
+
+  <div class="wrap">
+    <div id="loading" class="loading"><div class="spinner"></div></div>
+    <iframe id="app" allow="fullscreen"
+      src="https://script.google.com/macros/s/AKfycbwKsk6mfZ2UHYfRY--rhyioYaTYUMoxp6kK1flekZjLAVMCgwU7z_f5MkzKSsXEHm7NCQ/exec"></iframe>
+
+    <div class="fallback" id="fallback" style="display:none">
+      Não foi possível carregar o app. <br/>
+      <a class="btn" id="openLink" target="_blank" rel="noopener">Abrir em nova aba</a>
+    </div>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+    }
+
+    const iframe = document.getElementById('app');
+    const loading = document.getElementById('loading');
+    const fallback = document.getElementById('fallback');
+    const APPS_URL = iframe.src;
+
+    iframe.addEventListener('load', () => loading.style.display = 'none');
+    setTimeout(() => {
+      if (loading.style.display !== 'none') {
+        loading.style.display = 'none';
+        fallback.style.display = 'block';
+        document.getElementById('openLink').href = APPS_URL;
+      }
+    }, 6000);
+  </script>
+</body>
+</html>
