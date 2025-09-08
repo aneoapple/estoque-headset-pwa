@@ -1,292 +1,269 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"/>
-  <meta name="theme-color" content="#6c4df5">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <link rel="manifest" href="manifest.json">
-  <title>Estoque de Materiais Headset</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#6a53f2" />
+  <title>📦 Estoque de Materiais Headset</title>
+
+  <!-- ====== ESTILO ====== -->
   <style>
     :root{
-      --fs: 100%;
-      --ink:#0f1431; --ink2:#6b6fb0;
-      --panel:#ffffff; --stroke:#efe9ff;
+      --ink:#0f1431; --ink2:#636aa0;
       --violet:#6a53f2; --accent:#22eacb; --pink:#ff5bb0;
+      --panel:#ffffff; --stroke:#efe9ff;
       --shadow: 0 18px 48px rgba(106,83,242,.18), 0 6px 18px rgba(106,83,242,.12);
-      --title:#2642d0; /* azul título */
+      --fs: 100%;
     }
     *{box-sizing:border-box}
-    html{font-size:var(--fs);}
+    html{font-size:var(--fs)}
     body{
-      margin:0; padding:0; background:#fff; color:var(--ink);
-      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;
+      margin:0; background:#fff; color:var(--ink);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, 'Helvetica Neue', Arial;
       font-weight:700;
     }
     .wrap{max-width:1100px;margin:0 auto;padding:16px}
 
-    header{display:flex;align-items:center;gap:16px;margin:12px 0 8px}
-    .brand{
-      width:56px;height:56px;flex:0 0 56px;border-radius:999px;overflow:hidden;
-      box-shadow:0 10px 24px rgba(106,83,242,.18);
-      border:2px solid #e8e2ff;background:#fff;display:grid;place-items:center;
+    header{display:flex;align-items:center;gap:14px;margin:10px 0 18px}
+    .logo{
+      width:56px; height:56px; border-radius:50%;
+      display:inline-block; overflow:hidden; flex:0 0 auto;
+      box-shadow:0 10px 26px rgba(106,83,242,.25);
     }
-    .brand img{width:100%;height:100%;object-fit:contain}
+    .logo img{width:100%; height:100%; object-fit:contain}
     h1{
-      margin:0; line-height:1.08; text-align:left;
-      font-size: clamp(1.6rem, 3.4vw, 2.6rem);
-      color:var(--title);
-      text-shadow: 0 8px 22px rgba(106,83,242,.35);
+      margin:0; line-height:1.05; text-align:center; width:100%;
+      color:#2442ff;
+      text-shadow: 0 10px 24px rgba(126,92,255,.35), 0 2px 6px rgba(126,92,255,.35);
+      font-size: clamp(1.6rem, 3.8vw, 2.6rem);
     }
 
-    .zoom{position:sticky;top:8px;display:flex;gap:10px;justify-content:flex-end;margin:8px 0 10px;z-index:5}
+    .zoom{position:sticky; top:8px; margin:6px 0 12px; display:flex; justify-content:flex-end; gap:8px; z-index:5}
     .zbtn{
-      font-size:1.0rem; padding:.45rem .7rem; border-radius:14px;
+      font-size:1.0rem; padding:.45rem .7rem; border-radius:12px;
       border:2px solid var(--violet); color:var(--violet); background:#fff;
-      cursor:pointer; box-shadow:var(--shadow);
+      cursor:pointer; box-shadow:var(--shadow)
     }
 
-    .panel{
-      background:var(--panel);border:1px solid var(--stroke);border-radius:18px;
-      padding:16px;margin:14px 0;box-shadow:var(--shadow)
-    }
+    .panel{background:var(--panel); border:1px solid var(--stroke); border-radius:18px; padding:16px; margin:14px 0; box-shadow:var(--shadow)}
     .panel h2{
-      margin:0 0 10px;text-align:center;color:#6f5cf7;font-size:1.8rem
+      margin:0 0 10px; text-align:center; color:#6a53f2; font-size: clamp(1.2rem, 2.6vw, 1.8rem);
     }
 
     .card{background:#fff;border:1px solid #ececff;border-radius:16px;padding:14px;margin:10px 0;box-shadow:var(--shadow)}
     .row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
-    .code{font-size:1.05rem}
-    .name{font-size:1.35rem;color:#2a2a55}
+    .name{font-size:1.2rem;color:#2a2a55}
+    .code{font-size:1rem}
     .muted{font-size:.95rem;color:#6b72a8;margin-top:4px}
 
     .qty,.tipo,.obs{
-      border:1px solid #d7d7f5;border-radius:12px;padding:.6rem .8rem;font-size:1.05rem;background:#fff;
-      box-shadow:0 6px 14px rgba(106,83,242,.10);
+      border:1px solid #d7d7f5;border-radius:12px; padding:.55rem .75rem;
+      font-size:1.0rem; background:#fff; box-shadow:0 6px 14px rgba(106,83,242,.10)
     }
-    .qty{min-width:72px}
+    .qty{min-width:64px}
     .obs{min-width:16rem;flex:1}
 
-    .btn{border:0;border-radius:12px;padding:.7rem 1rem;color:#fff;font-size:1.05rem;cursor:pointer}
+    .btn{border:0;border-radius:12px;padding:.6rem .9rem;color:#fff;font-size:1.0rem;cursor:pointer}
     .btn.ok{background:linear-gradient(135deg,#7d89ff,#5d6bff)}
     .btn.in{background:linear-gradient(135deg,var(--accent),#10bba1)}
     .btn.out{background:linear-gradient(135deg,var(--pink),#ff2e63)}
     .btn:active{transform:scale(.98)}
 
     .badge{
-      border-radius:999px;padding:.6rem 1rem;font-size:1.05rem;text-align:center;
-      background:#f7f7ff;border:2px solid #d9d6ff;min-width:160px;margin-left:auto;margin-right:auto
+      border-radius:999px;padding:.5rem .85rem;font-size:1rem;background:#f7f7ff;border:2px solid #d9d6ff
     }
     .b-ok{border-color:#24b07a}
     .b-warn{border-color:#f5b942}
     .b-danger{border-color:#ff2e63}
 
-    .center{display:flex;justify-content:center}
-
     .overlay{position:fixed;inset:0;background:#0006;display:none;align-items:center;justify-content:center;z-index:9999}
-    .spinner{width:88px;height:88px;border-radius:999px;border:8px solid var(--accent);border-top-color:var(--violet);animation:spin 1s linear infinite}
+    .spinner{width:72px;height:72px;border-radius:999px;border:8px solid var(--accent);border-top-color:var(--violet);animation:spin 1s linear infinite}
     @keyframes spin{to{transform:rotate(360deg)}}
-    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#fff;border:1px solid var(--stroke);padding:.7rem 1rem;border-radius:12px;display:none;z-index:10000;box-shadow:var(--shadow)}
+    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#fff;border:1px solid var(--stroke);padding:.6rem .9rem;border-radius:12px;display:none;z-index:10000;box-shadow:var(--shadow)}
+    .watermark{margin-top:10px;text-align:center;font-weight:600;font-size:.9rem;color:#9aa0d6;letter-spacing:.2px}
 
-    footer{
-      text-align:center;margin:22px 0;color:#8e90c5;font-weight:700;
-      font-size:.95rem; opacity:.9
-    }
-    footer b{color:#6266c6}
+    /* centralização graciosa das duas faixas */
+    .placeholder{height:56px;border-radius:20px;border:1px solid #ece6ff;background:linear-gradient(180deg,#fff, #faf8ff);box-shadow:var(--shadow);margin:14px 0}
 
-    .titlebar{
-      display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:4px
-    }
-
-    /* acessibilidade: remover foco feio */
-    button, select, input {outline: none;}
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="titlebar">
-      <header style="flex:1 1 auto">
-        <div style="display:flex;align-items:center;gap:14px">
-          <div class="brand"><img src="logo.png" alt="HeadSet Brasil"></div>
-          <h1>Estoque de Materiais Headset</h1>
-        </div>
-      </header>
-      <div class="zoom">
-        <button class="zbtn" id="dec">A-</button>
-        <button class="zbtn" id="inc">A+</button>
-      </div>
+    <header>
+      <span class="logo"><img src="./logo.png" alt="HeadSet Brasil" /></span>
+      <h1>Estoque de Materiais Headset</h1>
+    </header>
+
+    <div class="zoom">
+      <button class="zbtn" id="zmenos">A-</button>
+      <button class="zbtn" id="zmais">A+</button>
     </div>
 
+    <div class="placeholder" aria-hidden="true"></div>
     <section class="panel">
       <h2>Produtos</h2>
       <div id="produtos"></div>
     </section>
 
+    <div class="placeholder" aria-hidden="true"></div>
     <section class="panel">
       <h2>Estoque Atual</h2>
       <div id="estoque"></div>
     </section>
 
-    <footer>Desenvolvido por <b>Alexandre Cavalcante — HD TECH —</b></footer>
+    <div class="watermark">Desenvolvido por <b>Alexandre Cavalcante — HD TECH —</b></div>
   </div>
 
   <div class="overlay" id="overlay"><div class="spinner"></div></div>
   <div class="toast" id="toast">Pronto!</div>
 
-<script>
-  // ====== CONFIG ======
-  const API_BASE = 'https://script.google.com/macros/s/AKfycbz99Szpvp5h5gRAXkE8j3ONJy9pqlVvb11APMmxshHiYtGd96DVw63dG2SFlPt-HYPPzQ/exec';
+  <!-- ====== SCRIPT ====== -->
+  <script>
+    // >>> troque aqui se publicar outro endpoint
+    const API_URL = "https://script.google.com/macros/s/AKfycbwn5j-ZPR1cJGfq71Zx0uKfpV85Wm0D1-xN4PJuyC4mr5PneMassPjvGU3OARhqDxvZSA/exec";
 
-  // ====== UI helpers ======
-  const $ = s => document.querySelector(s);
-  const elProdutos = $('#produtos');
-  const elEstoque  = $('#estoque');
-  const overlay    = $('#overlay');
-  const toast      = $('#toast');
-
-  let _fs = Number(localStorage.getItem('eh_fs')||'100');
-  document.documentElement.style.setProperty('--fs', _fs + '%');
-  $('#dec').onclick = ()=>ajustarFonte(-1);
-  $('#inc').onclick = ()=>ajustarFonte(1);
-
-  function ajustarFonte(step){
-    _fs = Math.min(240, Math.max(70, _fs + step*10));
+    // UI helpers
+    const $ = s => document.querySelector(s);
+    const overlay = $('#overlay'), toast = $('#toast');
+    let _fs = Number(localStorage.getItem('eh_fs') || '100');
     document.documentElement.style.setProperty('--fs', _fs + '%');
-    localStorage.setItem('eh_fs', String(_fs));
-  }
+    $('#zmenos').onclick = ()=> setFS(-1);
+    $('#zmais').onclick  = ()=> setFS(+1);
+    function setFS(step){ _fs = Math.min(240, Math.max(70, _fs + step*10)); document.documentElement.style.setProperty('--fs', _fs + '%'); localStorage.setItem('eh_fs', String(_fs)); }
+    function showOverlay(v){ overlay.style.display = v ? 'flex' : 'none'; }
+    function showToast(msg){ toast.textContent = msg||'Pronto!'; toast.style.display='block'; setTimeout(()=>toast.style.display='none',1400); }
 
-  function showOverlay(v){ overlay.style.display = v ? 'flex' : 'none'; }
-  function showToast(msg){ toast.textContent = msg||'Pronto!'; toast.style.display='block'; setTimeout(()=>toast.style.display='none',1500); }
-
-  function classByLevel(estoque, minimo){
-    estoque=Number(estoque||0); minimo=Number(minimo||0);
-    if(minimo>0){
-      if(estoque <= 0.25*minimo) return 'b-danger';
-      if(estoque <  minimo)      return 'b-warn';
+    // cores do badge de estoque
+    function classByLevel(estoque, minimo){
+      estoque = Number(estoque||0); minimo = Number(minimo||0);
+      if(minimo>0){
+        if(estoque <= 0.25*minimo) return 'b-danger';
+        if(estoque <  minimo)      return 'b-warn';
+      }
+      return 'b-ok';
     }
-    return 'b-ok';
-  }
 
-  function productRow(it){
-    const qtdOpts = Array.from({length:50}, (_,i)=>`<option value="${i+1}">${i+1}</option>`).join('');
-    return `
-      <div class="card" id="cardL-${it.codigo}">
-        <div class="row">
-          <div>
-            <div class="name">${it.nome}</div>
-            <div class="code">Cód: ${it.codigo}</div>
-            <div class="muted">Estoque: <b id="left-${it.codigo}">${it.estoque ?? 0}</b></div>
-          </div>
+    // elementos
+    const elProdutos = $('#produtos');
+    const elEstoque  = $('#estoque');
 
+    // render
+    function productRow(it){
+      const qtdOpts = Array.from({length:50}, (_,i)=>`<option value="${i+1}">${i+1}</option>`).join('');
+      return `
+        <div class="card" data-codigo="${it.codigo}">
           <div class="row">
-            <select class="tipo" id="tipo-${it.codigo}">
-              <option value="Unidade">Unidade</option>
-              <option value="CX">CX</option>
-              <option value="Litro">Litro</option>
-            </select>
-            <select class="qty"  id="qty-${it.codigo}">${qtdOpts}</select>
-            <input  class="obs"  id="obs-${it.codigo}" placeholder="Obs/Justificativa"/>
-            <button class="btn ok"  onclick="clickObs('${it.codigo}')">OK</button>
-            <button class="btn in"  onclick="clickMov('ENTRADA','${it.codigo}')">Entrada</button>
-            <button class="btn out" onclick="clickMov('SAÍDA','${it.codigo}')">Saída</button>
+            <div>
+              <div class="name">${it.nome}</div>
+              <div class="code">Cód: ${it.codigo}</div>
+              <div class="muted">Estoque: <b class="left">${it.estoque}</b></div>
+            </div>
+            <div class="row">
+              <select class="tipo">
+                <option value="Unidade">Unidade</option>
+                <option value="CX">CX</option>
+                <option value="Litro">Litro</option>
+              </select>
+              <select class="qty">${qtdOpts}</select>
+              <input  class="obs" placeholder="Obs/Justificativa"/>
+              <button class="btn ok"  data-action="obs">OK</button>
+              <button class="btn in"  data-action="entrada">Entrada</button>
+              <button class="btn out" data-action="saida">Saída</button>
+            </div>
           </div>
-        </div>
-      </div>`;
-  }
+        </div>`;
+    }
 
-  function stockRow(it){
-    return `
-      <div class="card" id="card-${it.codigo}">
-        <div class="row" style="gap:16px">
-          <div>
-            <div class="name" style="text-align:left">${it.nome}</div>
-            <div class="code">Cód: ${it.codigo}</div>
+    function stockRow(it){
+      return `
+        <div class="card" data-codigo="${it.codigo}">
+          <div class="row">
+            <div>
+              <div class="name">${it.nome}</div>
+              <div class="code">Cód: ${it.codigo}</div>
+            </div>
+            <div class="badge ${classByLevel(it.estoque, it.minimo)}">
+              Estoque: <span class="est">${it.estoque}</span>
+            </div>
           </div>
-          <div class="badge ${classByLevel(it.estoque, it.minimo)}" id="badge-${it.codigo}">
-            Estoque: <span id="est-${it.codigo}">${it.estoque ?? 0}</span>
-          </div>
-        </div>
-      </div>`;
-  }
+        </div>`;
+    }
 
-  function render(items){
-    elProdutos.innerHTML = items.map(productRow).join('');
-    elEstoque.innerHTML  = items.map(stockRow).join('');
-  }
+    function render(items){
+      elProdutos.innerHTML = items.map(productRow).join('');
+      elEstoque.innerHTML  = items.map(stockRow).join('');
+      wireButtons();
+    }
 
-  function findItem(cod){ return (window._items||[]).find(x=>x.codigo===cod); }
+    // liga botões
+    function wireButtons(){
+      elProdutos.querySelectorAll('.card').forEach(card=>{
+        card.addEventListener('click', async (ev)=>{
+          const btn = ev.target.closest('button'); if(!btn) return;
+          const action = btn.dataset.action;
+          const codigo = card.dataset.codigo;
+          const tipo   = card.querySelector('.tipo').value;
+          const qtd    = Number(card.querySelector('.qty').value || 1);
+          const obs    = (card.querySelector('.obs').value || '').trim();
+          if(action==='obs' && !obs){ alert('Escreva a observação antes de tocar em OK.'); return; }
 
-  // ====== API helpers ======
-  async function apiGET(params){
-    const url = API_BASE + '?' + new URLSearchParams(params);
-    const ctrl = new AbortController();
-    const t = setTimeout(()=>ctrl.abort(), 12000);
-    try{
-      const r = await fetch(url, {signal: ctrl.signal, credentials: 'omit', cache: 'no-store'});
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      return await r.json();
-    } finally { clearTimeout(t); }
-  }
+          try{
+            showOverlay(true);
+            if(action==='obs'){
+              await fetch(`${API_URL}?act=observacao&codigo=${encodeURIComponent(codigo)}&obs=${encodeURIComponent(obs)}&user=`, {method:'GET', mode:'cors'});
+              card.querySelector('.obs').value = '';
+              showToast('Observação salva!');
+            }else{
+              const tipoMov = (action==='entrada') ? 'ENTRADA' : 'SAÍDA';
+              const r = await fetch(`${API_URL}?act=movimentar&tipo=${encodeURIComponent(tipoMov)}&codigo=${encodeURIComponent(codigo)}&qtd=${encodeURIComponent(qtd)}&unidade=${encodeURIComponent(tipo)}&obs=${encodeURIComponent(obs)}&user=`, {method:'GET', mode:'cors'});
+              const data = await r.json().catch(()=>null);
+              if(data && typeof data.estoque !== 'undefined'){
+                // atualiza nos dois painéis
+                const left = card.querySelector('.left'); if(left) left.textContent = data.estoque;
+                const stockCard = elEstoque.querySelector(`.card[data-codigo="${codigo}"]`);
+                if(stockCard){
+                  stockCard.querySelector('.est').textContent = data.estoque;
+                  // atualiza cor
+                  const it = window._items.find(x=>x.codigo===codigo);
+                  const minimo = it ? it.minimo : 0;
+                  const badge = stockCard.querySelector('.badge');
+                  badge.className = 'badge ' + classByLevel(data.estoque, minimo);
+                }
+                showToast('Pronto!');
+              }else{
+                throw new Error('Resposta inválida da API');
+              }
+            }
+          }catch(err){
+            alert('Erro: ' + (err && err.message ? err.message : err));
+          }finally{
+            showOverlay(false);
+          }
+        });
+      });
+    }
 
-  async function clickMov(tipo, codigo){
-    const qtdSel  = document.getElementById('qty-'+codigo);
-    const tipoSel = document.getElementById('tipo-'+codigo);
-    const obsInp  = document.getElementById('obs-'+codigo);
+    // carrega lista
+    async function loadItems(){
+      showOverlay(true);
+      try{
+        // checagem rápida de status (opcional)
+        const okPing = await fetch(`${API_URL}?act=status`).then(r=>r.ok).catch(()=>false);
+        if(!okPing) throw new Error('API indisponível');
 
-    const qtd     = Number(qtdSel?.value || 1);
-    const unidade = String(tipoSel?.value || 'Unidade');
-    const obs     = String(obsInp?.value || '');
+        const data = await fetch(`${API_URL}?act=listar`).then(r=>r.json());
+        if(!Array.isArray(data)) throw new Error('Formato inesperado');
+        window._items = data.slice(); // cópia
+        render(window._items);
+      }catch(err){
+        alert('Não foi possível carregar os produtos.\n' + (err && err.message ? err.message : err));
+      }finally{
+        showOverlay(false);
+      }
+    }
 
-    showOverlay(true);
-    try{
-      const res = await apiGET({act:'movimentar', tipo, codigo, qtd, unidade, obs});
-      const it = findItem(codigo);
-      if (it){ it.estoque = res.estoque; }
-      const l = document.getElementById('left-'+codigo);
-      const e = document.getElementById('est-'+codigo);
-      const b = document.getElementById('badge-'+codigo);
-      if (l) l.textContent = res.estoque;
-      if (e) e.textContent = res.estoque;
-      if (b && it) b.className = 'badge ' + classByLevel(res.estoque, it.minimo||0);
-      showToast('Pronto!');
-    } catch(err){
-      alert('Não foi possível registrar a movimentação.\n' + (err?.message||err));
-    } finally { showOverlay(false); }
-  }
-
-  async function clickObs(codigo){
-    const obsInp  = document.getElementById('obs-'+codigo);
-    const obs     = String(obsInp?.value || '').trim();
-    if (!obs){ alert('Escreva a observação antes de tocar em OK.'); return; }
-    showOverlay(true);
-    try{
-      await apiGET({act:'observacao', codigo, obs});
-      obsInp.value = '';
-      showToast('Observação salva!');
-    } catch(err){
-      alert('Falha ao salvar observação.\n' + (err?.message||err));
-    } finally { showOverlay(false); }
-  }
-
-  async function boot(){
-    showOverlay(true);
-    try{
-      const items = await apiGET({act:'listar'});
-      window._items = (items||[]).map(x=>Object.assign({},x));
-      render(window._items);
-    } catch(err){
-      alert('Não foi possível carregar os produtos.\n' + (err?.message||err));
-    } finally { showOverlay(false); }
-  }
-
-  // PWA
-  if ('serviceWorker' in navigator){
-    navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
-  }
-
-  // init
-  boot();
-</script>
+    loadItems();
+  </script>
 </body>
 </html>
