@@ -1,78 +1,279 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>Estoque Headset</title>
-  <meta name="theme-color" content="#6c4df5" />
-  <link rel="manifest" href="./manifest.json" />
-  <link rel="icon" href="./icon-192.png" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"/>
+  <meta name="theme-color" content="#6c4df5"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <link rel="manifest" href="manifest.json"/>
+  <link rel="icon" href="icon-192.png"/>
+  <title>📦 Estoque de Materiais Headset</title>
   <style>
-    :root{ --ink:#14162b; --muted:#7b86bc; --violet:#6c4df5; }
+    :root{
+      --fs: 100%;
+      --ink:#0f1431; --ink2:#636aa0;
+      --panel:#ffffff; --stroke:#efe9ff;
+      --violet:#6a53f2; --accent:#22eacb; --pink:#ff5bb0;
+      --shadow: 0 18px 48px rgba(106,83,242,.18), 0 6px 18px rgba(106,83,242,.12);
+    }
     *{box-sizing:border-box}
-    html,body{height:100%}
+    html{font-size: var(--fs);}
     body{
-      margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto;
-      background:#f6f4ff; color:var(--ink);
-      display:flex; align-items:center; justify-content:center; padding:24px;
+      margin:0; padding:0; background:#fff; color:var(--ink);
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial;
+      font-weight:700;
     }
-    .card{
-      width:min(880px,100%); background:#fff; border-radius:24px;
-      padding:32px 36px; box-shadow:0 40px 120px rgba(108,77,245,.18);
-    }
-    .title{display:flex; gap:16px; align-items:center; margin:0 0 8px}
-    .title img{width:44px;height:44px;border-radius:50%}
-    h1{font-size:42px; line-height:1.1; margin:0}
-    p{margin:0; color:var(--muted); font-weight:600}
-    .cta{display:flex; gap:16px; margin-top:28px; align-items:center}
-    .btn{
-      appearance:none; border:0; border-radius:14px; padding:16px 26px;
-      background:#6c4df5; color:#fff; font-size:18px; font-weight:800; cursor:pointer;
-      box-shadow:0 20px 40px rgba(108,77,245,.25);
-    }
-    .link{font-size:20px; font-weight:800; color:#5a54d9; text-decoration:none}
-    .hint{margin-top:18px; color:#9aa3d4; font-weight:700}
+    .wrap{max-width:1100px;margin:0 auto;padding:16px}
+    header{display:flex;align-items:flex-start;gap:14px;margin:6px 0 12px}
+    h1{margin:0; font-size:2.2rem; line-height:1.1}
+    .sub{color:var(--ink2); font-size:1.0rem}
+    .zoom{position:sticky;top:8px;display:flex;gap:12px;justify-content:flex-end;margin:8px 0 12px;z-index:5}
+    .zbtn{font-size:1.6rem; padding:.7rem 1.1rem; border-radius:16px;
+      border:2px solid var(--violet); color:var(--violet); background:#fff; cursor:pointer; box-shadow:var(--shadow)}
+    .panel{background:var(--panel);border:1px solid var(--stroke);border-radius:18px;padding:16px;margin:14px 0;box-shadow:var(--shadow)}
+    .panel h2{margin:0 0 10px;text-align:center;color:var(--violet);font-size:1.8rem}
+    .card{background:#fff;border:1px solid #ececff;border-radius:16px;padding:14px;margin:10px 0;box-shadow:var(--shadow)}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .name{font-size:1.5rem;color:#2a2a55}
+    .code{font-size:1.1rem}
+    .muted{font-size:.95rem;color:#6b72a8;margin-top:4px}
+    .qty,.tipo,.obs{border:1px solid #d7d7f5;border-radius:12px;padding:.6rem .8rem;font-size:1.05rem;background:#fff;box-shadow:0 6px 14px rgba(106,83,242,.10)}
+    .qty{min-width:72px}
+    .obs{min-width:16rem;flex:1}
+    .btn{border:0;border-radius:12px;padding:.7rem 1rem;color:#fff;font-size:1.05rem;cursor:pointer}
+    .btn.ok{background:linear-gradient(135deg,#7d89ff,#5d6bff)}
+    .btn.in{background:linear-gradient(135deg,var(--accent),#10bba1)}
+    .btn.out{background:linear-gradient(135deg,var(--pink),#ff2e63)}
+    .btn:active{transform:scale(.98)}
+    .badge{border-radius:999px;padding:.6rem 1rem;font-size:1rem;background:#f7f7ff;border:2px solid #d9d6ff}
+    .b-ok{border-color:#24b07a}
+    .b-warn{border-color:#f5b942}
+    .b-danger{border-color:#ff2e63}
+    .overlay{position:fixed;inset:0;background:#0006;display:none;align-items:center;justify-content:center;z-index:9999}
+    .spinner{width:88px;height:88px;border-radius:999px;border:8px solid var(--accent);border-top-color:var(--violet);animation:spin 1s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#fff;border:1px solid var(--stroke);padding:.7rem 1rem;border-radius:12px;display:none;z-index:10000;box-shadow:var(--shadow)}
+    footer{text-align:center;margin:22px 0;color:#777;font-size:1rem}
+    footer b{color:#0d0d44}
   </style>
 </head>
 <body>
-  <main class="card">
-    <div class="title">
-      <img src="./icon-192.png" alt="logo">
-      <h1>Estoque Headset</h1>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>📦 Estoque de Materiais Headset</h1>
+        <div class="sub">
+          Toque no produto, escolha <b>Tipo</b>, a quantidade e registre a movimentação.
+          Para registrar só uma observação, use o botão <b>OK</b>.
+        </div>
+      </div>
+    </header>
+
+    <div class="zoom">
+      <button class="zbtn" onclick="ajustarFonte(-1)">A-</button>
+      <button class="zbtn" onclick="ajustarFonte(1)">A+</button>
     </div>
-    <p>Abrindo o aplicativo…</p>
-    <div class="cta">
-      <button id="open" class="btn">Abrir agora</button>
-      <a id="openNew" class="link" href="#" rel="noopener">abrir em nova aba</a>
-    </div>
-    <p class="hint">Se o redirecionamento automático não acontecer, toque em <b>Abrir agora</b>.</p>
-  </main>
 
-  <script>
-    // 🔗 URL do seu Apps Script (NOVA)
-    const APP_URL = "https://script.google.com/macros/s/AKfycbx4BguCm3hnMO90-Z5qCT7Ha4X6Woesbolxkoe-oIxUfQ2_zPxfcSQCWX9zj7lKGHqD1w/exec";
+    <section class="panel">
+      <h2>Produtos</h2>
+      <div id="produtos"></div>
+    </section>
 
-    // iOS/Safari costuma bloquear auto-redirect. Fazemos um open com usuário-gesture.
-    const btn = document.getElementById('open');
-    const link = document.getElementById('openNew');
+    <section class="panel">
+      <h2>Estoque Atual</h2>
+      <div id="estoque"></div>
+    </section>
 
-    function openApp(sameTab=true){
-      try{
-        if (sameTab) location.href = APP_URL;
-        else window.open(APP_URL, '_blank', 'noopener');
-      }catch(e){ location.href = APP_URL; }
+    <footer>Desenvolvido por <b>Alexandre Cavalcante — HD TECH —</b></footer>
+  </div>
+
+  <div class="overlay" id="overlay"><div class="spinner"></div></div>
+  <div class="toast" id="toast">Pronto!</div>
+
+<script>
+  // ====== CONFIGURE AQUI SE A URL DO GAS MUDAR ======
+  const API_URL = "https://script.google.com/macros/s/AKfycbx4BguCm3hnMO90-Z5qCT7Ha4X6Woesbolxkoe-oIxUfQ2_zPxfcSQCWX9zj7lKGHqD1w/exec";
+  // ===================================================
+
+  // Pega email 1x para auditoria (localStorage)
+  let USER_EMAIL = localStorage.getItem('eh_user_email') || '';
+  if (!USER_EMAIL) {
+    const ask = prompt('Digite seu e-mail (para registrar nas movimentações):') || '';
+    if (ask && ask.includes('@')) {
+      USER_EMAIL = ask.trim();
+      localStorage.setItem('eh_user_email', USER_EMAIL);
     }
+  }
 
-    btn.addEventListener('click', () => openApp(true));
-    link.addEventListener('click', (e) => { e.preventDefault(); openApp(false); });
+  const $ = s => document.querySelector(s);
+  const elProdutos = $('#produtos');
+  const elEstoque  = $('#estoque');
+  const overlay    = $('#overlay');
+  const toast      = $('#toast');
 
-    // Tentativa discreta após 800ms (Android costuma aceitar)
-    setTimeout(()=>openApp(true), 800);
+  let _fs = Number(localStorage.getItem('eh_fs')||'100');
+  document.documentElement.style.setProperty('--fs', _fs + '%');
+  function ajustarFonte(step){
+    _fs = Math.min(240, Math.max(70, _fs + step*10));
+    document.documentElement.style.setProperty('--fs', _fs + '%');
+    localStorage.setItem('eh_fs', String(_fs));
+  }
 
-    // registra SW (cache offline só do shell; API passa direto)
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+  function showOverlay(v){ overlay.style.display = v ? 'flex' : 'none'; }
+  function showToast(msg){ toast.textContent = msg||'Pronto!'; toast.style.display='block'; setTimeout(()=>toast.style.display='none',1400); }
+
+  function classByLevel(estoque, minimo){
+    estoque=Number(estoque||0); minimo=Number(minimo||0);
+    if(minimo>0){
+      if(estoque <= 0.25*minimo) return 'b-danger';
+      if(estoque <  minimo)      return 'b-warn';
     }
-  </script>
+    return 'b-ok';
+  }
+
+  function productRow(it){
+    const qtdOpts = Array.from({length:50}, (_,i)=>`<option value="${i+1}">${i+1}</option>`).join('');
+    return `
+      <div class="card" id="cardL-${it.codigo}">
+        <div class="row">
+          <div>
+            <div class="name">${it.nome}</div>
+            <div class="code">Cód: ${it.codigo}</div>
+            <div class="muted">Estoque: <b id="left-${it.codigo}">${it.estoque ?? 0}</b></div>
+          </div>
+
+          <div class="row">
+            <select class="tipo" id="tipo-${it.codigo}">
+              <option value="Unidade">Unidade</option>
+              <option value="CX">CX</option>
+              <option value="Litro">Litro</option>
+            </select>
+            <select class="qty"  id="qty-${it.codigo}">${qtdOpts}</select>
+            <input  class="obs"  id="obs-${it.codigo}" placeholder="Obs/Justificativa"/>
+            <button class="btn ok"  onclick="clickObs('${it.codigo}')">OK</button>
+            <button class="btn in"  onclick="clickMov('ENTRADA','${it.codigo}')">Entrada</button>
+            <button class="btn out" onclick="clickMov('SAÍDA','${it.codigo}')">Saída</button>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function stockRow(it){
+    return `
+      <div class="card" id="card-${it.codigo}">
+        <div class="row">
+          <div>
+            <div class="name">${it.nome}</div>
+            <div class="code">Cód: ${it.codigo}</div>
+          </div>
+          <div class="badge ${classByLevel(it.estoque, it.minimo)}" id="badge-${it.codigo}">
+            Estoque: <span id="est-${it.codigo}">${it.estoque ?? 0}</span>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function render(items){
+    elProdutos.innerHTML = items.map(productRow).join('');
+    elEstoque.innerHTML  = items.map(stockRow).join('');
+  }
+
+  function findItem(cod){ return (window._items||[]).find(x=>x.codigo===cod); }
+
+  // ==== API helpers ====
+  async function apiListar(){
+    const url = API_URL + '?act=listar';
+    const r = await fetch(url, {cache:'no-store'});
+    if (!r.ok) throw new Error('Falha ao listar ('+r.status+')');
+    return r.json();
+  }
+
+  async function apiMovimentar(tipo, codigo, qtd, unidade, obs){
+    const r = await fetch(API_URL + '?act=movimentar', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ tipo, codigo, qtd, unidade, obs, user: USER_EMAIL })
+    });
+    if (!r.ok) throw new Error('Movimentação falhou ('+r.status+')');
+    return r.json();
+  }
+
+  async function apiObservacao(codigo, obs){
+    const r = await fetch(API_URL + '?act=observacao', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ codigo, obs, user: USER_EMAIL })
+    });
+    if (!r.ok) throw new Error('Observação falhou ('+r.status+')');
+    return r.json();
+  }
+  // =====================
+
+  async function clickMov(tipo, codigo){
+    const qtdSel  = document.getElementById('qty-'+codigo);
+    const tipoSel = document.getElementById('tipo-'+codigo);
+    const obsInp  = document.getElementById('obs-'+codigo);
+
+    const qtd     = Number(qtdSel?.value || 1);
+    const unidade = String(tipoSel?.value || 'Unidade');
+    const obs     = String(obsInp?.value || '');
+
+    try{
+      showOverlay(true);
+      const res = await apiMovimentar(tipo, codigo, qtd, unidade, obs);
+      const it = findItem(codigo);
+      if (it){ it.estoque = res.estoque; }
+      const l = document.getElementById('left-'+codigo);
+      const e = document.getElementById('est-'+codigo);
+      const b = document.getElementById('badge-'+codigo);
+      if (l) l.textContent = res.estoque;
+      if (e) e.textContent = res.estoque;
+      if (b && it) b.className = 'badge ' + classByLevel(res.estoque, it.minimo||0);
+      showToast('Pronto!');
+    }catch(err){
+      alert(err.message||err);
+    }finally{
+      showOverlay(false);
+    }
+  }
+
+  async function clickObs(codigo){
+    const obsInp  = document.getElementById('obs-'+codigo);
+    const obs     = String(obsInp?.value || '').trim();
+    if (!obs){ alert('Escreva a observação antes de tocar em OK.'); return; }
+    try{
+      showOverlay(true);
+      await apiObservacao(codigo, obs);
+      obsInp.value = '';
+      showToast('Observação salva!');
+    }catch(err){
+      alert(err.message||err);
+    }finally{
+      showOverlay(false);
+    }
+  }
+
+  async function bootstrap(){
+    try{
+      showOverlay(true);
+      const items = await apiListar();
+      window._items = (items||[]).map(x=>Object.assign({},x));
+      render(window._items);
+    }catch(err){
+      alert('Não foi possível carregar os produtos.\n' + (err.message||err));
+    }finally{
+      showOverlay(false);
+    }
+  }
+
+  // SW (cache offline; ignora chamadas à API)
+  if ('serviceWorker' in navigator){
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('service-worker.js').catch(()=>{});
+    });
+  }
+
+  bootstrap();
+</script>
 </body>
 </html>
