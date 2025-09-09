@@ -1,47 +1,39 @@
-/* PWA – cache básico do app shell + network-first para a API */
-const CACHE = "eh-v10";
-const ASSETS = [
-  "./",
-  "./index.html",
-  "./manifest.json",
-  "./icon-192.png",
-  "./icon-512.png",
-  "./logo.png"
+const CACHE_NAME = 'estoque-headset-v2';
+const APP_SHELL = [
+  './',
+  './index.html',
+  './manifest.json',
+  './icon-192.png',
+  './icon-512.png',
+  './logo.png'
 ];
 
-self.addEventListener("install", (e) => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(APP_SHELL)));
   self.skipWaiting();
 });
-self.addEventListener("activate", (e) => {
+
+self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+      Promise.all(keys.map(k => (k !== CACHE_NAME ? caches.delete(k) : null)))
     )
   );
   self.clients.claim();
 });
-self.addEventListener("fetch", (e) => {
+
+// Network-first; não intercepta chamadas ao Apps Script
+self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
+  if (url.hostname.includes('script.google.com')) return;
 
-  // Para a API do GAS: network-first
-  if (url.hostname.includes("script.google.com")) {
-    e.respondWith(
-      fetch(e.request)
-        .then(res => res)               // não cacheia API
-        .catch(() => caches.match("./index.html"))
-    );
-    return;
-  }
-
-  // App shell: cache-first com fallback à rede
   e.respondWith(
-    caches.match(e.request).then(cached =>
-      cached || fetch(e.request).then(res => {
-        const resClone = res.clone();
-        caches.open(CACHE).then(c => c.put(e.request, resClone));
-        return res;
+    fetch(e.request)
+      .then(resp => {
+        const copy = resp.clone();
+        caches.open(CACHE_NAME).then(c => c.put(e.request, copy)).catch(()=>{});
+        return resp;
       })
-    )
+      .catch(() => caches.match(e.request))
   );
 });
