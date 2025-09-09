@@ -1,5 +1,5 @@
 // SW estável: cache estático; API sempre online (network-first para não travar GAS).
-const CACHE = "eh-v3";
+const CACHE = "eh-v1";
 const ASSETS = [
   "./",
   "./index.html",
