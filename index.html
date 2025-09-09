@@ -5,13 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"/>
   <meta name="theme-color" content="#6c4df5">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>📦 Estoque de Materiais Headset</title>
-
-  <!-- PWA -->
   <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="icon-192.png"/>
-
   <style>
     :root{
       --fs: 100%;
@@ -29,24 +24,24 @@
     }
     .wrap{max-width:1100px;margin:0 auto;padding:16px}
 
-    header{position:relative;display:flex;align-items:center;gap:16px;margin:10px 0 14px;justify-content:center;flex-direction:column}
-    .logo{width:108px;height:108px;border-radius:50%; object-fit:cover; box-shadow:var(--shadow)}
+    /* Cabeçalho central com logo */
+    header{display:flex;align-items:center;gap:16px;margin:16px 0 8px;justify-content:center;flex-direction:column}
+    .logo{width:112px;height:112px;border-radius:50%;object-fit:cover;box-shadow:var(--shadow)}
     h1{
-      margin:0; line-height:1.05; text-align:center;
+      margin:10px 0 4px; line-height:1.05; text-align:center;
       font-size: clamp(1.6rem, 3vw + 1rem, 2.6rem);
-      color:#1f39c4; text-shadow: 0 6px 18px rgba(106,83,242,.35);
+      color:#1f39c4;
+      text-shadow: 0 6px 18px rgba(106,83,242,.35);
     }
-    /* Marca d’água discreta */
+    /* Marca-d’água discreta no topo (troca o texto explicativo) */
     .watermark{
-      position:relative; margin-top:6px;
-      width:100%; text-align:center; font-weight:600;
-      color:#0f1431; opacity:.18; letter-spacing:.3px;
-      user-select:none; pointer-events:none;
+      text-align:center; font-size:.95rem; font-weight:700; color:#0d0d44;
+      opacity:.28; margin-top:4px;
     }
 
-    .zoom{position:sticky;top:8px;display:flex;gap:10px;justify-content:flex-end;margin:8px 0 12px;z-index:5}
+    .zoom{position:sticky;top:8px;display:flex;gap:8px;justify-content:flex-end;margin:8px 0 12px;z-index:5}
     .zbtn{
-      font-size:.85rem; padding:.25rem .45rem; border-radius:10px;
+      font-size: .9rem; padding:.28rem .48rem; border-radius:12px;
       border:2px solid var(--violet); color:var(--violet); background:#fff;
       cursor:pointer; box-shadow:var(--shadow);
     }
@@ -90,12 +85,6 @@
 
     footer{text-align:center;margin:26px 0;color:#8b8fb8;font-size:.9rem;font-weight:600}
     footer b{color:#0d0d44}
-
-    /* Alguns webviews mostram um banner de "abrir em nova aba".
-       Se aparecer com estilos inline azul, escondemos. */
-    body > div[style*="rgb(232, 240, 254)"], body > div[style*="#e8f0fe"]{
-      display:none !important;height:0 !important;overflow:hidden !important;visibility:hidden !important
-    }
   </style>
 </head>
 <body>
@@ -128,9 +117,8 @@
   <div class="toast" id="toast">Pronto!</div>
 
 <script>
-  /* ========= CONFIG =========
-     COLE AQUI o link da SUA implantação do Apps Script (googleusercontent.com/…/exec) */
-  const API_BASE = "COLE_AQUI_A_URL_DO_SEU_APPS_SCRIPT_EXEC";
+  /* ✅ API ATUAL (seu /exec) */
+  const API_BASE = "https://script.google.com/macros/s/AKfycbyaphOQTjM9QPZK44RGyf02K2c1KOd38FQboFPCqCqfeqg0qwCKF5QmsY1kRMkB_AqjGQ/exec";
 
   const $ = s => document.querySelector(s);
   const elProdutos = $('#produtos');
@@ -138,7 +126,6 @@
   const overlay    = $('#overlay');
   const toast      = $('#toast');
 
-  // Zoom
   let _fs = Number(localStorage.getItem('eh_fs')||'100');
   document.documentElement.style.setProperty('--fs', _fs + '%');
   function ajustarFonte(step){
@@ -146,10 +133,9 @@
     document.documentElement.style.setProperty('--fs', _fs + '%');
     localStorage.setItem('eh_fs', String(_fs));
   }
-
-  // UX helpers
   function showOverlay(v){ overlay.style.display = v ? 'flex' : 'none'; }
   function showToast(msg){ toast.textContent = msg||'Pronto!'; toast.style.display='block'; setTimeout(()=>toast.style.display='none',1400); }
+
   function classByLevel(estoque, minimo){
     estoque=Number(estoque||0); minimo=Number(minimo||0);
     if(minimo>0){
@@ -159,7 +145,6 @@
     return 'b-ok';
   }
 
-  // UI
   function productRow(it){
     const qtdOpts = Array.from({length:50}, (_,i)=>`<option value="${i+1}">${i+1}</option>`).join('');
     return `
@@ -205,10 +190,8 @@
   }
   function findItem(cod){ return (window._items||[]).find(x=>x.codigo===cod); }
 
-  // API
   async function listar(){
-    const url = API_BASE + "?act=listar";
-    const resp = await fetch(url, { cache:'no-store' });
+    const resp = await fetch(API_BASE + "?act=listar", { cache:'no-store' });
     if (!resp.ok) throw new Error("HTTP "+resp.status);
     return resp.json();
   }
@@ -216,8 +199,7 @@
     const resp = await fetch(API_BASE + "?act=movimentar", {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(payload),
-      cache: 'no-store'
+      body: JSON.stringify(payload), cache:'no-store'
     });
     return resp.json();
   }
@@ -225,8 +207,7 @@
     const resp = await fetch(API_BASE + "?act=observacao", {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(payload),
-      cache: 'no-store'
+      body: JSON.stringify(payload), cache:'no-store'
     });
     return resp.json();
   }
@@ -275,7 +256,6 @@
     const obsInp  = document.getElementById('obs-'+codigo);
     const obs     = String(obsInp?.value || '').trim();
     if (!obs){ alert('Escreva uma observação.'); return; }
-
     showOverlay(true);
     try{
       const res = await enviarObs({ codigo, obs, user: "" });
@@ -288,7 +268,6 @@
     showOverlay(false);
   }
 
-  // Init
   (function init(){ carregar(); })();
 
   // PWA
